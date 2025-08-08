@@ -1,0 +1,25 @@
+{
+  "name": "building-smarter-not-harder-with-llms",
+  "version": "1.0.0",
+  "description": "A RevealJS presentation about leveraging Large Language Models effectively",
+  "main": "index.html",
+  "scripts": {
+    "dev": "serve -s . -l 3000",
+    "start": "serve -s . -l 3000",
+    "serve": "serve -s . -l 3000"
+  },
+  "keywords": [
+    "presentation",
+    "revealjs",
+    "llm",
+    "slides"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "serve": "^14.2.1"
+  },
+  "dependencies": {
+    "reveal.js": "^5.2.1"
+  }
+}
