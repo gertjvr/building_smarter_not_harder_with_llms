@@ -1,430 +1,316 @@
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<head>
+    <meta charset="utf-8" />
+    <title>Build Smarter, Not Harder with LLMs — Strategic Orchestration, Not Vibe Coding</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-		<title>Building Smarter, Not Harder with LLMs</title>
+    <!-- Reveal core CSS (local) -->
+    <link rel="stylesheet" href="./node_modules/reveal.js/dist/reveal.css" />
+    <link rel="stylesheet" href="./node_modules/reveal.js/dist/theme/white.css" id="theme" />
+    <!-- Highlight plugin CSS (local) -->
+    <link rel="stylesheet" href="./node_modules/reveal.js/plugin/highlight/monokai.css" />
+    <!-- Print to PDF (local) -->
+    <link rel="stylesheet" href="./node_modules/reveal.js/dist/print/pdf.css" media="print" />
 
-		<link rel="stylesheet" href="node_modules/reveal.js/dist/reset.css">
-		<link rel="stylesheet" href="node_modules/reveal.js/dist/reveal.css">
-		<link rel="stylesheet" href="node_modules/reveal.js/dist/theme/black.css" id="theme">
+    <!-- Minimal custom styles for readability -->
+    <style>
+        :root {
+            --brand-blue: #1f6feb;
+            --brand-green: #2fbf71;
+            --brand-orange: #ff8a00;
+        }
+        .reveal h1, .reveal h2, .reveal h3 { letter-spacing: 0.2px; }
+        .reveal h1 { font-size: 2.1em; }
+        .reveal h2 { font-size: 1.6em; }
+        .reveal h3 { font-size: 1.25em; color: #333; }
+        .reveal p, .reveal li { line-height: 1.35; font-size: 1.05em; }
+        .reveal ul { margin-top: 0.6em; }
+        .reveal img { max-width: 100%; height: auto; border: 0; }
+        .reveal blockquote { border-left: 4px solid var(--brand-blue); padding-left: 0.8em; color: #111; }
+        .brand-accent { color: var(--brand-orange); }
+    </style>
+</head>
+<body>
+<div class="reveal">
+    <div class="slides">
 
-		<!-- Theme used for syntax highlighted code -->
-		<link rel="stylesheet" href="node_modules/reveal.js/plugin/highlight/monokai.css" id="highlight-theme">
+        <!-- Slide 01 — Title -->
+        <section>
+            <!-- IMAGE PROMPT: Minimalist title “Build Smarter, Not Harder with LLMs”; subtitle “Strategic Orchestration, Not Vibe Coding”; clean modern pop art style; bold outlines; flat bright colours; minimal background; palette blue/green/orange; presentation-friendly. -->
+            <img src="./assets/images/slide-01.png" alt="Title visual" loading="lazy" />
+            <h1>Build Smarter, Not Harder with LLMs</h1>
+            <h3 class="brand-accent">Strategic Orchestration, Not Vibe Coding</h3>
+            <aside class="notes">
+                (1 min, total 1) Good afternoon, everyone. [Smile, eye contact]
+                Second last talk today. This is not the morning “vibe coding” session—this is how to build smarter with a plan, not letting AI freestyle your codebase.
+            </aside>
+        </section>
 
-		<style>
-			.reveal .slides section .fragment {
-				opacity: 0.5;
-			}
-			.reveal .slides section .fragment.visible {
-				opacity: 1;
-			}
-		</style>
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
-				<!-- Title Slide -->
-				<section>
-					<h1>Building Smarter, Not Harder</h1>
-					<h3>with LLMs</h3>
-					<p>
-						<small>A presentation on leveraging Large Language Models</small>
-					</p>
-					<aside class="notes">
-						Welcome everyone to this presentation on "Building Smarter, Not Harder with LLMs". Today we'll explore how Large Language Models are fundamentally changing software development. We'll cover new development patterns like micro waterfall cycles, essential guardrails for AI-assisted coding, and practical workflows that leverage AI tools effectively. The goal is to show how developers can become strategic orchestrators rather than just hands-on coders.
-					</aside>
-				</section>
+        <!-- Slide 02 — Conference Context -->
+        <section>
+            <!-- IMAGE PROMPT: Split-screen messy “Vibe coding” desk vs organised “Strategic coding” desk, clean modern pop art, minimal background, palette blue/green/orange. -->
+            <img src="./assets/images/slide-02.png" alt="Vibe vs Strategic" loading="lazy" />
+            <h2>Today’s Context</h2>
+            <ul>
+                <li class="fragment">Morning: <em>Vibe coding</em></li>
+                <li class="fragment">Afternoon: <strong>Strategic orchestration</strong></li>
+            </ul>
+            <aside class="notes">
+                (1 min, total 2) Harper Reed’s posts highlight the shift. We’ll explore AI as collaborator + guardrails.
+                [Ask] Who used AI to write code in the last month?
+            </aside>
+        </section>
 
-				<!-- The Shifting Landscape of Software Development -->
-				<section>
-					<section>
-						<h2>The Shifting Landscape of Software Development</h2>
-						<p class="fragment">We are experiencing a <strong>huge shift in how we build software</strong></p>
-						<aside class="notes">
-							We're starting with the big picture - the fundamental transformation happening in software development right now. This isn't just about new tools; it's about a complete paradigm shift in how we approach building software. The traditional ways of working are being challenged by AI capabilities that were unimaginable just a few years ago.
-						</aside>
-					</section>
-					<section>
-						<h3>From "Flow State" to "Strategic Orchestration"</h3>
-						<ul>
-							<li class="fragment">From manual coding → AI-assisted development</li>
-							<li class="fragment">From individual focus → coordinating multiple tools</li>
-						</ul>
-						<p class="fragment"><strong>LLMs are <em>"creative partners in shaping ideas and planning software"</em></strong></p>
-						<aside class="notes">
-							This slide captures the core transformation we're experiencing. The traditional "flow state" where developers would code for hours uninterrupted is evolving into something different - strategic orchestration. Instead of writing every line of code manually, we're now coordinating multiple AI tools and agents. LLMs have become creative partners that help us think through problems, plan solutions, and generate code. This requires a different mindset - less about deep individual focus and more about managing and directing AI capabilities effectively.
-						</aside>
-					</section>
-				</section>
+        <!-- Slide 03 — The Shift -->
+        <section>
+            <!-- IMAGE PROMPT: Large pull quote “The way we build software is changing forever.”, pop art minimal. -->
+            <img src="./assets/images/slide-03.png" alt="Shift quote" loading="lazy" />
+            <blockquote>“The way we build software is changing forever.”</blockquote>
+            <aside class="notes">
+                (2 min, total 4) The shift isn’t only tools—it’s how we think, plan, and validate.
+                From lone flow state to strategic orchestration.
+            </aside>
+        </section>
 
-				<!-- Introducing Micro Waterfall Cycles -->
-				<section>
-					<section>
-						<h2>Introducing Micro Waterfall Cycles</h2>
-						<p class="fragment">Code generation tools are <strong>nudging us toward</strong> a new development approach</p>
-						<aside class="notes">
-							Now we're diving into a specific pattern that's emerging - micro waterfall cycles. This might sound counterintuitive given that the industry moved away from waterfall methodology decades ago, but AI tools are actually nudging us toward a structured approach again. The key difference is the scale and speed - we're talking about waterfall-like phases that happen in minutes, not months.
-						</aside>
-					</section>
-					<section>
-						<h3>"Waterfall in 15 Minutes"</h3>
-						<p>Cramming distinct phases into quick bursts:</p>
-						<ul>
-							<li class="fragment"><strong>A chunk of planning</strong> - Define requirements and approach</li>
-							<li class="fragment"><strong>A chunk of execution</strong> - Generate and implement code</li>
-							<li class="fragment"><strong>A chunk of review</strong> - Validate and refine the output</li>
-						</ul>
-						<p class="fragment"><em>This cycle repeats rapidly, creating mini-waterfalls within agile workflows</em></p>
-						<aside class="notes">
-							Here's the breakdown of what these micro waterfall cycles look like in practice. We have three distinct phases that happen in rapid succession. First, a focused planning phase where we clearly define what we want to achieve and how we'll approach it. Then execution, where AI tools generate and implement the code based on our specifications. Finally, a review phase where we validate the output and refine it as needed. The entire cycle can happen in 15 minutes or less, and then we repeat it for the next chunk of work. This creates mini-waterfalls that fit perfectly within agile workflows.
-						</aside>
-					</section>
-				</section>
+        <!-- Slide 04 — AI as Collaborator -->
+        <section>
+            <!-- IMAGE PROMPT: Human ⇄ AI loop (“Ideas”, “Code”, “Feedback”), pop art. -->
+            <img src="./assets/images/slide-04.png" alt="Human-AI loop" loading="lazy" />
+            <h2>AI as Collaborator</h2>
+            <ul>
+                <li class="fragment">Not simply generating code</li>
+                <li class="fragment">Not “vibe coding”</li>
+                <li class="fragment">A dynamic partnership</li>
+            </ul>
+            <aside class="notes">
+                (3 min, total 7) Not simply generating code or “vibe coding”.
+                It’s a back-and-forth partnership where you direct, and AI helps build what’s planned.
+            </aside>
+        </section>
 
-				<!-- Why Micro Waterfall? The Need for Guardrails -->
-				<section>
-					<section>
-						<h2>Why Micro Waterfall? The Need for Guardrails</h2>
-						<p class="fragment">AI agents need <strong>"extremely clear specs"</strong> to know what they are doing</p>
-						<aside class="notes">
-							This brings us to a crucial question - why are we seeing this return to structured phases? The answer lies in how AI agents work. Unlike human developers who can interpret ambiguous requirements and make intuitive decisions, AI agents need extremely clear specifications to produce reliable results. Without this clarity, AI outputs become unpredictable and potentially problematic.
-						</aside>
-					</section>
-					<section>
-						<h3>The Challenge with AI Sidekicks</h3>
-						<ul>
-							<li class="fragment">AI tools are powerful but need direction</li>
-							<li class="fragment">Without clear specifications, outputs become unpredictable</li>
-							<li class="fragment">Structured approaches provide the necessary guardrails</li>
-						</ul>
-						<aside class="notes">
-							Here's the fundamental challenge we face with AI sidekicks. They're incredibly powerful - they can generate code, write documentation, create tests, and much more. But this power comes with a caveat: they need clear direction. When specifications are vague or ambiguous, AI outputs can vary wildly and often miss the mark. This is where structured approaches become essential - they provide the guardrails that keep AI tools focused and productive.
-						</aside>
-					</section>
-					<section>
-						<h3>Why This Structured Approach is Crucial</h3>
-						<ul>
-							<li class="fragment"><strong>Clear Planning Phase</strong> - Define exactly what the AI should accomplish</li>
-							<li class="fragment"><strong>Controlled Execution</strong> - Guide AI output with specific parameters</li>
-							<li class="fragment"><strong>Systematic Review</strong> - Validate AI decisions against requirements</li>
-						</ul>
-						<p class="fragment"><em>This micro waterfall ensures AI agents operate within defined boundaries</em></p>
-						<aside class="notes">
-							This slide breaks down why the structured approach is so crucial. The clear planning phase ensures we define exactly what the AI should accomplish before it starts working. Controlled execution means we guide the AI output with specific parameters rather than letting it run free. The systematic review validates AI decisions against our requirements. Together, these phases ensure AI agents operate within defined boundaries, producing reliable and predictable results.
-						</aside>
-					</section>
-				</section>
+        <!-- Slide 05 — Harper’s 3-Step Loop -->
+        <section>
+            <!-- IMAGE PROMPT: Circular Brainstorm → Plan → Execute, icons (lightbulb/checklist/brackets), pop art. -->
+            <img src="./assets/images/slide-05.png" alt="Loop" loading="lazy" />
+            <h2>Harper’s 3-Step Loop</h2>
+            <ul>
+                <li class="fragment">Brainstorm → Specification</li>
+                <li class="fragment">Plan → Steps</li>
+                <li class="fragment">Execute → Code</li>
+            </ul>
+            <p class="fragment">Planning can take ~15 minutes.</p>
+            <aside class="notes">
+                (2 min, total 9) Three distinct loops; short planning yields precise, safe blueprints for code generation.
+            </aside>
+        </section>
 
-				<!-- The "Magic" of Planning with AI -->
-				<section>
-					<section>
-						<h2>The "Magic" of Planning with AI</h2>
-						<p class="fragment">Describe the <strong>"magic"</strong> of planning with <em>AI-powered tools</em></p>
-						<aside class="notes">
-							Now let's talk about what makes AI planning tools feel truly magical. This isn't just about faster code generation - it's about fundamentally changing how we approach project planning and execution. The capabilities we're seeing today would have been considered impossible just a few years ago.
-						</aside>
-					</section>
-					<section>
-						<h3>What Makes AI Planning Tools Magical?</h3>
-						<ul>
-							<li class="fragment">Understand an <strong>entire codebase</strong> without manual file selection</li>
-							<li class="fragment">Analyze tasks and create comprehensive plans</li>
-							<li class="fragment">Work safely with proper guardrails</li>
-						</ul>
-						<aside class="notes">
-							Here are the key capabilities that make these tools feel magical. First, they can understand an entire codebase without you having to manually select files or explain the architecture. They analyze the code structure, dependencies, and patterns automatically. Second, they can take a high-level task and break it down into comprehensive, actionable plans. Third, they do all this while working safely within the guardrails we've established.
-						</aside>
-					</section>
-					<section>
-						<h3>The Speed Revolution</h3>
-						<p class="fragment">A detailed planning process can take <strong>"maybe 15 minutes"</strong></p>
-						<p class="fragment">This is <em>"wild"</em> compared to traditional methods</p>
-						<div class="fragment">
-							<h4>This fast cycle enables:</h4>
-							<p><strong>"Concurrency on steroids"</strong></p>
-						</div>
-						<aside class="notes">
-							The speed is truly revolutionary. What used to take hours or days of planning meetings and documentation can now happen in maybe 15 minutes. This is wild compared to traditional planning methods. But the real magic isn't just the speed - it's what this speed enables. When planning cycles become this fast, you can run multiple AI agents concurrently. It's like having concurrency on steroids.
-						</aside>
-					</section>
-					<section>
-						<h3>Multiple AI Agents Working Simultaneously</h3>
-						<p class="fragment">Spin up multiple "agents" simultaneously:</p>
-						<ul>
-							<li class="fragment">🔨 <strong>One AI building a feature</strong></li>
-							<li class="fragment">📝 <strong>Another handling documentation</strong></li>
-							<li class="fragment">🧪 <strong>A third working on test coverage</strong></li>
-						</ul>
-						<p class="fragment"><em>True parallel development powered by AI</em></p>
-						<aside class="notes">
-							This is where things get really exciting. Because planning is so fast, you can spin up multiple AI agents simultaneously, each working on different aspects of the same project. One AI can be building the actual feature, another can be writing comprehensive documentation, and a third can be creating test coverage. This is true parallel development powered by AI - something that was impossible with traditional development approaches.
-						</aside>
-					</section>
-				</section>
+        <!-- Slide 06 — Idea Honing -->
+        <section>
+            <!-- IMAGE PROMPT: Chatbot Q&A on laptop building a specification, pop art. -->
+            <img src="./assets/images/slide-06.png" alt="Idea Q&A" loading="lazy" />
+            <h2>Idea Honing</h2>
+            <ul>
+                <li class="fragment">Describe idea; AI asks one question at a time</li>
+                <li class="fragment">Outputs developer-ready specification</li>
+                <li class="fragment">Reqs, architecture, data, errors, testing</li>
+            </ul>
+            <aside class="notes">
+                (4 min, total 13) Describe your idea; AI probes one question at a time, digging into details until a developer-ready spec emerges:
+                requirements, architecture choices, data handling, error strategies, testing plans.
+            </aside>
+        </section>
 
-				<!-- Essential Guardrails: Hyper-Defensive Coding -->
-				<section>
-					<section>
-						<h2>Essential Guardrails: Hyper-Defensive Coding</h2>
-						<p class="fragment">Hyper-defensive coding is <strong>essential</strong> to keep AI sidekicks on track</p>
-						<aside class="notes">
-							Now we move into the critical topic of guardrails. With great AI power comes great responsibility, and hyper-defensive coding is absolutely essential to keep AI sidekicks on track. This isn't just good practice - it's a necessity when working with AI tools that can generate large amounts of code quickly.
-						</aside>
-					</section>
-					<section>
-						<h3>The Foundation of Safe AI Development</h3>
-						<p class="fragment">Heavily relying on:</p>
-						<ul>
-							<li class="fragment">🧪 <strong>Robust test suites</strong></li>
-							<li class="fragment">🔍 <strong>Static analysis</strong></li>
-							<li class="fragment">🚀 <strong>Strong CI/CD pipelines</strong></li>
-						</ul>
-						<aside class="notes">
-							The foundation of safe AI development rests on three pillars. First, robust test suites that thoroughly exercise your code and catch regressions. Second, static analysis tools that can spot potential issues before code even runs. Third, strong CI/CD pipelines that automatically validate changes and prevent problematic code from reaching production. These aren't optional when working with AI - they're essential safety nets.
-						</aside>
-					</section>
-					<section>
-						<h3>The Purpose: Catch It Quickly</h3>
-						<p class="fragment">When an AI agent makes a mistake, these guardrails help us <strong>"catch it quickly"</strong></p>
-						<div class="fragment">
-							<h4>Remember:</h4>
-							<p><strong>"Tests are your safety net & friend"</strong></p>
-						</div>
-						<aside class="notes">
-							The whole purpose of these guardrails is to catch mistakes quickly when AI agents inevitably make them. And they will make mistakes - it's not a matter of if, but when. The key is having systems in place that surface these issues immediately rather than letting them propagate. Remember: tests are your safety net and friend. They're what allow you to work confidently with AI tools, knowing that problems will be caught early.
-						</aside>
-					</section>
-				</section>
+        <!-- Slide 07 — Reasoning AI Blueprint -->
+        <section>
+            <!-- IMAGE PROMPT: Flow: Specification → Reasoning AI → Blueprint → Prompt Plan & Checklist, pop art. -->
+            <img src="./assets/images/slide-07.png" alt="Blueprint flow" loading="lazy" />
+            <h2>Blueprint & Prompt Plan</h2>
+            <ul>
+                <li class="fragment">Small, safe, iterative chunks</li>
+                <li class="fragment">Clear prompts for code-gen</li>
+                <li class="fragment">Reusable checklist</li>
+            </ul>
+            <aside class="notes">
+                (2 min, total 15) Reasoning AI breaks the work into meaningful yet low-risk steps; outputs clear prompts and a reusable checklist.
+                Enables micro waterfall cycles.
+            </aside>
+        </section>
 
-				<!-- Essential Guardrails: The Project-Specific Instruction File -->
-				<section>
-					<section>
-						<h2>Essential Guardrails: The Project-Specific Instruction File</h2>
-						<p class="fragment">A <strong>succinct project-specific instruction file</strong> is crucial for guiding AI agents</p>
-						<aside class="notes">
-							The second essential guardrail is a succinct project-specific instruction file. This is crucial for guiding AI agents and ensuring they understand the unique context of your project. Without this, AI tools operate in a vacuum and may make assumptions that don't align with your project's needs.
-						</aside>
-					</section>
-					<section>
-						<h3>What This File Should Outline</h3>
-						<ul>
-							<li class="fragment">🏗️ <strong>Tech stack</strong> - Languages, frameworks, and tools used</li>
-							<li class="fragment">📁 <strong>Important folders</strong> - Key directories and their purposes</li>
-							<li class="fragment">⚡ <strong>Essential commands</strong> - Build, test, and deployment scripts</li>
-							<li class="fragment">🎨 <strong>Code style</strong> - Formatting and naming conventions</li>
-							<li class="fragment">🚫 <strong>Areas the tool must never change</strong> - Critical boundaries and restrictions</li>
-						</ul>
-						<aside class="notes">
-							Here's what your project-specific instruction file should cover. The tech stack tells AI agents what languages, frameworks, and tools you're using. Important folders help them understand your project structure. Essential commands ensure they know how to build, test, and deploy your code. Code style guidelines keep their output consistent with your standards. Most importantly, you need to clearly define areas the tool must never change - these are your critical boundaries and restrictions.
-						</aside>
-					</section>
-					<section>
-						<h3>Acts as a "Vital Safeguard"</h3>
-						<p class="fragment">This instruction file ensures AI actions are:</p>
-						<ul>
-							<li class="fragment">✅ <strong>Consistent</strong> - Following project conventions</li>
-							<li class="fragment">✅ <strong>Accurate</strong> - Using correct tools and approaches</li>
-							<li class="fragment">✅ <strong>Aligned with project needs</strong> - Matching team expectations</li>
-						</ul>
-						<aside class="notes">
-							This instruction file acts as a vital safeguard ensuring AI actions are consistent, accurate, and aligned with your project needs. Consistency means following your established project conventions. Accuracy means using the correct tools and approaches for your specific setup. Alignment means matching your team's expectations and project requirements. Without this file, AI tools are essentially flying blind.
-						</aside>
-					</section>
-					<section>
-						<h3>AI Can Generate This File</h3>
-						<p class="fragment">The tool itself can often create this instruction file</p>
-						<div class="fragment">
-							<p>Possibly with a simple command like:</p>
-							<code>/init</code>
-						</div>
-						<p class="fragment"><em>This bootstraps the AI's understanding of your project from day one</em></p>
-						<aside class="notes">
-							Here's the beautiful part - the AI tool itself can often create this instruction file. Many tools support commands like "/init" that analyze your project and generate appropriate guidelines automatically. This bootstraps the AI's understanding of your project from day one, creating a foundation for all future interactions. It's like giving the AI a comprehensive onboarding session about your project.
-						</aside>
-					</section>
-				</section>
+        <!-- Slide 08 — Example: Mobile + Watch App -->
+        <section>
+            <!-- IMAGE PROMPT: Phone + smartwatch mockups with modern app UI, pop art. -->
+            <img src="./assets/images/slide-08.png" alt="Mobile + Watch" loading="lazy" />
+            <h2>Example: Mobile + Watch (Hours)</h2>
+            <ul>
+                <li class="fragment">AI handled boilerplate & integrations</li>
+                <li class="fragment">Focus on concept & testing</li>
+            </ul>
+            <aside class="notes">
+                (4 min, total 19) Built a mobile + watch app in hours to validate an idea.
+                AI took boilerplate; I focused on concept and tests. Speed without sloppiness.
+            </aside>
+        </section>
 
-				<!-- How It Works: A Practical Workflow -->
-				<section>
-					<section>
-						<h2>How It Works: A Practical Workflow</h2>
-						<p class="fragment">Let's walk through how a <strong>"smart coding assistant"</strong> operates in practice</p>
-						<aside class="notes">
-							Now let's get practical. We've covered the theory and the guardrails, so let's walk through exactly how a smart coding assistant operates in practice. This is the three-step workflow that makes all the concepts we've discussed come together into a working system.
-						</aside>
-					</section>
-					<section>
-						<h3>Step 1: Initialization Command</h3>
-						<p class="fragment">Create a <strong>"project-specific instruction file"</strong></p>
-						<div class="fragment">
-							<p>The tool helps:</p>
-							<ul>
-								<li class="fragment">🔍 <strong>Explore project structure</strong> - Understanding codebase layout</li>
-								<li class="fragment">📋 <strong>Identify key files</strong> - Locating critical components</li>
-								<li class="fragment">⚙️ <strong>Generate guidelines</strong> - Creating project-specific rules</li>
-							</ul>
-						</div>
-						<p class="fragment"><em>Foundation for intelligent assistance</em></p>
-						<aside class="notes">
-							Step one is initialization. This is where you create that project-specific instruction file we discussed earlier. The tool helps by exploring your project structure to understand the codebase layout, identifying key files and critical components, and generating appropriate guidelines and rules. This creates the foundation for all intelligent assistance that follows. It's like giving the AI a comprehensive briefing about your project.
-						</aside>
-					</section>
-					<section>
-						<h3>Step 2: Plan Mode</h3>
-						<p class="fragment">The tool will <strong>"analyse & research the codebase"</strong></p>
-						<div class="fragment">
-							<p>Key capabilities:</p>
-							<ul>
-								<li class="fragment">🔬 <strong>Deep code analysis</strong> - Understanding existing patterns</li>
-								<li class="fragment">📝 <strong>Present a plan of action</strong> - Detailed implementation strategy</li>
-								<li class="fragment">🛡️ <strong>No unwanted edits</strong> - Safe exploration mode</li>
-							</ul>
-						</div>
-						<p class="fragment"><em>Think first, act later</em></p>
-						<aside class="notes">
-							Step two is plan mode. This is where the tool analyzes and researches your codebase deeply. It performs deep code analysis to understand existing patterns and conventions. Then it presents a detailed plan of action with a comprehensive implementation strategy. Crucially, this happens in safe exploration mode with no unwanted edits. The philosophy is "think first, act later" - ensuring we have a solid plan before making any changes.
-						</aside>
-					</section>
-					<section>
-						<h3>Step 3: Auto Mode</h3>
-						<p class="fragment">The tool will <strong>"automatically edit files, run commands and execute on plan"</strong></p>
-						<div class="fragment">
-							<p>Automated execution includes:</p>
-							<ul>
-								<li class="fragment">✏️ <strong>File modifications</strong> - Implementing planned changes</li>
-								<li class="fragment">⚡ <strong>Command execution</strong> - Running builds, tests, deployments</li>
-								<li class="fragment">🎯 <strong>Plan execution</strong> - Following the agreed strategy</li>
-							</ul>
-						</div>
-						<p class="fragment"><em>Controlled automation with guardrails</em></p>
-						<aside class="notes">
-							Step three is auto mode, where the real magic happens. The tool automatically edits files, runs commands, and executes the plan. This includes implementing the planned changes through file modifications, executing commands for builds, tests, and deployments, and systematically following the agreed strategy. But remember - this is controlled automation with guardrails. The AI isn't running wild; it's following the plan and operating within the boundaries we've established.
-						</aside>
-					</section>
-					<section>
-						<h3>Putting the Tool to Work</h3>
-						<p class="fragment">The potential is enormous for <strong>"putting the tool to work"</strong></p>
-						<div class="fragment">
-							<p>Imagine building and deploying a:</p>
-							<h4>🚀 <strong>"Special Surprise Pivot App"</strong></h4>
-						</div>
-						<p class="fragment"><em>From idea to deployment, guided by AI intelligence</em></p>
-						<aside class="notes">
-							The potential for putting these tools to work is enormous. Imagine being able to build and deploy something like a "Special Surprise Pivot App" - going from initial idea all the way to deployment, guided by AI intelligence. This represents the ultimate vision: AI as a creative and technical partner that can help bring ideas to life rapidly and reliably.
-						</aside>
-					</section>
-				</section>
+        <!-- Slide 09 — Example: Live Client POC -->
+        <section>
+            <!-- IMAGE PROMPT: Team meeting with prototype on laptop, discussion, pop art. -->
+            <img src="./assets/images/slide-09.png" alt="Client POC" loading="lazy" />
+            <h2>Example: Live Client POC</h2>
+            <ul>
+                <li class="fragment">Requirements captured live</li>
+                <li class="fragment">Working POC by meeting end</li>
+            </ul>
+            <aside class="notes">
+                (4 min, total 23) In a client meeting we captured requirements via prompting and produced a working POC before the meeting ended.
+                [Ask] Who’s wanted to just show something instead of promising a follow-up?
+            </aside>
+        </section>
 
-				<!-- Looking Ahead: The Future of Development -->
-				<section>
-					<section>
-						<h2>Looking Ahead: The Future of Development</h2>
-						<p class="fragment">The field is moving at <strong>"lightning speed"</strong></p>
-						<p class="fragment">It <strong>"will probably not work in 2 weeks, or it will work twice as well"</strong></p>
-						<aside class="notes">
-							As we look ahead to the future of development, we need to acknowledge that this field is moving at lightning speed. The pace of change is unprecedented. Tools and capabilities that work today might not work in two weeks, or they might work twice as well. This rapid evolution means we need to stay adaptable and ready for constant change.
-						</aside>
-					</section>
-					<section>
-						<h3>A "Weird and Wonderful and Occasionally Terrifying" Space</h3>
-						<p class="fragment">This rapidly evolving landscape requires us to:</p>
-						<ul>
-							<li class="fragment">💡 Stay <strong>"curious, keep building"</strong></li>
-							<li class="fragment">🧠 Remain <strong>"open-minded"</strong> about these tools</li>
-							<li class="fragment">🚀 Embrace the uncertainty and rapid change</li>
-						</ul>
-						<aside class="notes">
-							This is indeed a weird and wonderful and occasionally terrifying space to work in. The rapidly evolving landscape requires us to adopt specific mindsets. We need to stay curious and keep building - experimenting with new tools and approaches. We must remain open-minded about these tools, not dismissing them based on current limitations. And we need to embrace the uncertainty and rapid change rather than resist it. This is the new reality of software development.
-						</aside>
-					</section>
-					<section>
-						<h3>Unprecedented Productivity Gains</h3>
-						<p class="fragment">This new approach has <strong>"accelerated the amount of code that I as a single person am able to generate"</strong></p>
-						<p class="fragment">Leading to <strong>"loads of productivity"</strong></p>
-						<div class="fragment">
-							<h4>The result:</h4>
-							<p>Individual developers can accomplish what once required entire teams</p>
-						</div>
-						<aside class="notes">
-							The productivity gains we're seeing are truly unprecedented. This new approach has accelerated the amount of code that a single person can generate by orders of magnitude, leading to loads of productivity. The result is that individual developers can now accomplish what once required entire teams. This isn't just about writing more code - it's about delivering more complete solutions, faster, with higher quality.
-						</aside>
-					</section>
-					<section>
-						<h3>The Evolving Role: Strategic Engineer</h3>
-						<p class="fragment">The developer's role is evolving towards that of a <strong>"strategic engineer"</strong></p>
-						<div class="fragment">
-							<p>Who will:</p>
-							<ul>
-								<li class="fragment">🎯 <strong>Orchestrate multiple AI tools</strong></li>
-								<li class="fragment">🔍 <strong>Keep an eye on code quality</strong></li>
-								<li class="fragment">🏗️ <strong>Design new systems that scale</strong></li>
-							</ul>
-						</div>
-						<p class="fragment"><em>From hands-on coding to high-level orchestration and strategy</em></p>
-						<aside class="notes">
-							The developer's role is fundamentally evolving toward that of a strategic engineer. This new role involves orchestrating multiple AI tools rather than just writing code. Strategic engineers keep an eye on code quality across all AI-generated output. They design new systems that scale, thinking about architecture and long-term maintainability. It's a shift from hands-on coding to high-level orchestration and strategy. We're becoming conductors of AI orchestras rather than solo performers.
-						</aside>
-					</section>
-				</section>
+        <!-- Slide 10 — Micro Waterfall Cycles -->
+        <section>
+            <!-- IMAGE PROMPT: Plan/Build/Review loop, pop art. -->
+            <img src="./assets/images/slide-10.png" alt="Micro waterfall" loading="lazy" />
+            <h2>Micro Waterfall</h2>
+            <ul>
+                <li class="fragment">Plan → Build → Review (loop)</li>
+                <li class="fragment">Parallel agents: features, docs, tests</li>
+            </ul>
+            <aside class="notes">
+                (2 min, total 25) Short, distinct phases; multiple agents run in parallel for features, docs, and tests.
+            </aside>
+        </section>
 
-				<!-- The Ultimate Goal -->
-				<section>
-                    <section>
-                        <h2>The Ultimate Goal</h2>
-                        <p class="fragment">The ultimate aim is not just clean code...</p>
-                        <div class="fragment">
-                            <h3>It's <strong>"designing experiences users love"</strong></h3>
-                        </div>
-                        <aside class="notes">
-                            As we wrap up, let's remember what this is all about. The ultimate goal of all these AI tools and methodologies isn't just to write cleaner code or be more productive. The real aim is designing experiences that users love. All the technical improvements we've discussed are means to this end - creating better products and experiences for the people who use our software.
-                        </aside>
-                    </section>
-                    <section>
-                        <div class="fragment">
-                            <p>By embracing these methods, we can:</p>
-                            <ul>
-                                <li class="fragment">🚀 <strong>Deliver projects quicker</strong></li>
-                                <li class="fragment">🎯 <strong>Deliver more consistently</strong></li>
-                                <li class="fragment">💡 <strong>Keep focus on the product and user benefit</strong></li>
-                            </ul>
-                        </div>
-                        <p class="fragment"><em>Technology serves the experience, not the other way around</em></p>
-                        <aside class="notes">
-                            By embracing these AI-powered methods and micro waterfall cycles, we can achieve three key outcomes. We can deliver projects quicker, getting value to users faster. We can deliver more consistently, reducing the variability in our output quality and timeline. Most importantly, we can keep our focus on the product and user benefit rather than getting lost in technical complexity. Remember: technology serves the experience, not the other way around. That's the mindset that will help us build smarter, not harder.
-                        </aside>
-                    </section>
-                </section>
+        <!-- Slide 11 — The Evolving Role -->
+        <section>
+            <!-- IMAGE PROMPT: Icons PM/Architect/QA/Dev, pop art. -->
+            <img src="./assets/images/slide-11.png" alt="Strategic roles" loading="lazy" />
+            <h2>Strategic Engineer</h2>
+            <ul>
+                <li class="fragment">Shape prompts</li>
+                <li class="fragment">Define tests</li>
+                <li class="fragment">Maintain quality</li>
+                <li class="fragment">Handle edge cases</li>
+            </ul>
+            <aside class="notes">
+                (3 min, total 28) From “dev” to “strategic engineer”: orchestrate AIs, shape prompts, set tests, ensure quality, handle edge cases.
+                Not vibe coding—this is orchestration.
+            </aside>
+        </section>
 
-                <!-- Questions -->
-                <section>
-                    <h1>Questions?</h1>
-                    <p>Thank you for your attention!</p>
-                    <aside class="notes">
-                        That concludes our journey through building smarter, not harder with LLMs. We've covered the shifting landscape of development, micro waterfall cycles, AI planning tools, essential guardrails, practical workflows, and the future of our evolving roles. I hope this gives you a framework for thinking about how to leverage AI tools effectively in your own development work. Now I'd love to hear your questions, thoughts, and experiences with these tools. Thank you for your attention!
-                    </aside>
-                </section>
-			</div>
-		</div>
+        <!-- Slide 12 — Guardrails Matter -->
+        <section>
+            <!-- IMAGE PROMPT: Robot writes wrong code; human facepalms, pop art. -->
+            <img src="./assets/images/slide-12.png" alt="Guardrails" loading="lazy" />
+            <h2>Hyper-Defensive Coding</h2>
+            <ul>
+                <li class="fragment">Static analysis</li>
+                <li class="fragment">Formal verification</li>
+                <li class="fragment">Extensive coverage</li>
+            </ul>
+            <aside class="notes">
+                (4 min, total 32) AI boosts speed but can confidently be wrong. Defensive coding and strong checks are non-negotiable.
+            </aside>
+        </section>
 
-		<script src="node_modules/reveal.js/dist/reveal.js"></script>
-		<script src="node_modules/reveal.js/plugin/notes/notes.js"></script>
-		<script src="node_modules/reveal.js/plugin/markdown/markdown.js"></script>
-		<script src="node_modules/reveal.js/plugin/highlight/highlight.js"></script>
-		<script>
-			// More info about initialization & config:
-			// - https://revealjs.com/initialization/
-			// - https://revealjs.com/config/
-			Reveal.initialize({
-				hash: true,
-				transition: 'slide',
-				transitionSpeed: 'default',
-				backgroundTransition: 'fade',
+        <!-- Slide 13 — Habits for Safety -->
+        <section>
+            <!-- IMAGE PROMPT: Git history + concise tests, pop art. -->
+            <img src="./assets/images/slide-13.png" alt="Habits" loading="lazy" />
+            <h2>Practical Habits</h2>
+            <ul>
+                <li class="fragment">Frequent commits (rollback points)</li>
+                <li class="fragment">Prune pointless tests</li>
+                <li class="fragment">Comprehensive documentation</li>
+                <li class="fragment">Control through planning</li>
+            </ul>
+            <aside class="notes">
+                (3 min, total 35) Commit often; keep the suite lean; let AI help with Implementation Guides; rely on the blueprint as a safety net.
+                [Ask] Perfectly wrong code stories?
+            </aside>
+        </section>
 
-				// Learn about plugins: https://revealjs.com/plugins/
-				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
-			});
-		</script>
-	</body>
+        <!-- Slide 14 — Enforceable Standards -->
+        <section>
+            <!-- IMAGE PROMPT: Editor with .editorconfig rules, pop art. -->
+            <img src="./assets/images/slide-14.png" alt="Standards" loading="lazy" />
+            <h2>Rules for Humans & AI</h2>
+            <ul>
+                <li class="fragment">Tech stack</li>
+                <li class="fragment">Coding style</li>
+                <li class="fragment">Testing approach</li>
+                <li class="fragment">Run &amp; test commands</li>
+            </ul>
+            <aside class="notes">
+                (4 min, total 39) Single source of truth for stack, style, testing, and commands.
+                AI can extract standards from an existing codebase.
+            </aside>
+        </section>
+
+        <!-- Slide 15 — Standards in Action -->
+        <section>
+            <!-- IMAGE PROMPT: Split messy repo vs tidy repo, pop art. -->
+            <img src="./assets/images/slide-15.png" alt="Standards enforced" loading="lazy" />
+            <h2>CI/CD Enforcement</h2>
+            <ul>
+                <li class="fragment">Prevents drift</li>
+                <li class="fragment">Speeds onboarding</li>
+                <li class="fragment">Aligns human + AI</li>
+            </ul>
+            <aside class="notes">
+                (2 min, total 41) Not just documents—automated policy in the pipeline keeps contributions aligned and prevents style drift.
+            </aside>
+        </section>
+
+        <!-- Slide 16 — Bringing It Together -->
+        <section>
+            <!-- IMAGE PROMPT: Three puzzle pieces “Plan”, “AI”, “Guardrails”, pop art. -->
+            <img src="./assets/images/slide-16.png" alt="Puzzle" loading="lazy" />
+            <h2>Plan × AI × Guardrails</h2>
+            <p class="fragment">Fast code is useless without control.</p>
+            <aside class="notes">
+                (2 min, total 43) Together they produce predictable, maintainable, safe output.
+            </aside>
+        </section>
+
+        <!-- Slide 17 — Callback & Conclusion -->
+        <section>
+            <!-- IMAGE PROMPT: Split “Vibe coding” vs “Strategic orchestration”, pop art. -->
+            <img src="./assets/images/slide-17.png" alt="Conclusion" loading="lazy" />
+            <h2>Not Vibe Coding — Orchestration</h2>
+            <aside class="notes">
+                (3 min, total 46) After the morning vibe session, here’s the other half:
+                not just what AI can generate, but how we keep it reliable and aligned.
+                The difference between success and chaos is the plan you give your AI.
+            </aside>
+        </section>
+
+        <!-- Slide 18 — Q&A -->
+        <section>
+            <!-- IMAGE PROMPT: Large bold “Questions?” with subtle tech lines, pop art. -->
+            <img src="./assets/images/slide-18.png" alt="Q&A" loading="lazy" />
+            <h2>Questions?</h2>
+            <aside class="notes">
+                (up to 10 min, total 50+) Open floor. Invite examples of AI workflows, guardrails that saved projects, and standards teams enforce today.
+            </aside>
+        </section>
+
+    </div>
+</div>
+
+<!-- Reveal core (local) -->
+<script src="./node_modules/reveal.js/dist/reveal.js"></script>
+<!-- Plugins (local) -->
+<script src="./node_modules/reveal.js/plugin/notes/notes.js"></script>
+<script src="./node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+
+<script>
+    Reveal.initialize({
+        hash: true,
+        slideNumber: true,
+        progress: true,
+        plugins: [ RevealNotes, RevealHighlight ]
+    });
+</script>
+</body>
 </html>
