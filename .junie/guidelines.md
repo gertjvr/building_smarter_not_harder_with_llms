@@ -49,10 +49,10 @@ Testing assumes the development server is running on port 3000 (or the auto-sele
 pnpm dev
 
 # In a separate terminal, run HTTP-based tests
-curl -s http://localhost:3000 | grep -q "Building Smarter, Not Harder" && echo "✅ PASS: Title found" || echo "❌ FAIL: Title missing"
-curl -s http://localhost:3000 | grep -q "Reveal.initialize" && echo "✅ PASS: RevealJS loaded" || echo "❌ FAIL: RevealJS missing"
-curl -s http://localhost:3000 | grep -q "class=\"fragment\"" && echo "✅ PASS: Fragment animations found" || echo "❌ FAIL: No fragments"
-curl -I http://localhost:3000 | grep -q "200 OK" && echo "✅ PASS: Server responding" || echo "❌ FAIL: Server error"
+curl -s http://localhost:5000 | grep -q "Building Smarter, Not Harder" && echo "✅ PASS: Title found" || echo "❌ FAIL: Title missing"
+curl -s http://localhost:5000 | grep -q "Reveal.initialize" && echo "✅ PASS: RevealJS loaded" || echo "❌ FAIL: RevealJS missing"
+curl -s http://localhost:5000 | grep -q "class=\"fragment\"" && echo "✅ PASS: Fragment animations found" || echo "❌ FAIL: No fragments"
+curl -I http://localhost:5000 | grep -q "200 OK" && echo "✅ PASS: Server responding" || echo "❌ FAIL: Server error"
 ```
 
 Expected output should show:
@@ -68,13 +68,13 @@ To extend the test suite:
 2. **Test Examples**:
    ```bash
    # Example: Test for specific slide content
-   curl -s http://localhost:3000 | grep -q "Your Content Here" && echo "✅ PASS: Content found" || echo "❌ FAIL: Content missing"
+   curl -s http://localhost:5000 | grep -q "Your Content Here" && echo "✅ PASS: Content found" || echo "❌ FAIL: Content missing"
    
    # Example: Test for theme configuration
-   curl -s http://localhost:3000 | grep -q "theme/black.css" && echo "✅ PASS: Black theme configured" || echo "❌ FAIL: Theme missing"
+   curl -s http://localhost:5000 | grep -q "theme/black.css" && echo "✅ PASS: Black theme configured" || echo "❌ FAIL: Theme missing"
    
    # Example: Test server performance
-   curl -w "%{time_total}\n" -o /dev/null -s http://localhost:3000 | awk '{if($1 < 1.0) print "✅ PASS: Fast response time"; else print "❌ FAIL: Slow response"}'
+   curl -w "%{time_total}\n" -o /dev/null -s http://localhost:5000 | awk '{if($1 < 1.0) print "✅ PASS: Fast response time"; else print "❌ FAIL: Slow response"}'
    ```
 
 3. **Running Custom Tests**: Execute curl commands while dev server is running

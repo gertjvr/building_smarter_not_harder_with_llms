@@ -4,9 +4,7 @@
   "description": "A RevealJS presentation about leveraging Large Language Models effectively",
   "main": "index.html",
   "scripts": {
-    "dev": "serve -s . -l 3000",
-    "start": "serve -s . -l 3000",
-    "serve": "serve -s . -l 3000"
+    "dev": "serve -s . -l 5000"
   },
   "keywords": [
     "presentation",

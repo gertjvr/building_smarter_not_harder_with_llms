@@ -4,13 +4,10 @@
     <meta charset="utf-8" />
     <title>Build Smarter, Not Harder with LLMs — Strategic Orchestration, Not Vibe Coding</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <!-- Reveal core CSS (local) -->
+    
     <link rel="stylesheet" href="./node_modules/reveal.js/dist/reveal.css" />
     <link rel="stylesheet" href="./node_modules/reveal.js/dist/theme/white.css" id="theme" />
-    <!-- Highlight plugin CSS (local) -->
     <link rel="stylesheet" href="./node_modules/reveal.js/plugin/highlight/monokai.css" />
-    <!-- Print to PDF (local) -->
     <link rel="stylesheet" href="./node_modules/reveal.js/dist/print/pdf.css" media="print" />
 
     <!-- Minimal custom styles for readability -->
@@ -26,9 +23,12 @@
         .reveal h3 { font-size: 1.25em; color: #333; }
         .reveal p, .reveal li { line-height: 1.35; font-size: 1.05em; }
         .reveal ul { margin-top: 0.6em; }
-        .reveal img { max-width: 100%; height: auto; border: 0; }
+        /* .reveal img { max-width: 100%; height: auto; border: 0; } */
         .reveal blockquote { border-left: 4px solid var(--brand-blue); padding-left: 0.8em; color: #111; }
         .brand-accent { color: var(--brand-orange); }
+    /* Utility: smaller text for dense prompt slides */
+    .prompt-small { font-size: 0.72em; line-height: 1.25; }
+    .prompt-small blockquote { font-size: 0.6em; line-height: 1.0; }
     </style>
 </head>
 <body>
@@ -38,35 +38,40 @@
         <!-- Slide 01 — Title -->
         <section>
             <!-- IMAGE PROMPT: Minimalist title “Build Smarter, Not Harder with LLMs”; subtitle “Strategic Orchestration, Not Vibe Coding”; clean modern pop art style; bold outlines; flat bright colours; minimal background; palette blue/green/orange; presentation-friendly. -->
-            <img src="./assets/images/slide-01.png" alt="Title visual" loading="lazy" />
-            <h1>Build Smarter, Not Harder with LLMs</h1>
-            <h3 class="brand-accent">Strategic Orchestration, Not Vibe Coding</h3>
+            <img src="./assets/images/slide-01.png" alt="Title visual" />
+            <!-- <h1>Build Smarter, Not Harder with LLMs</h1>
+            <h3 class="brand-accent">Strategic Orchestration</h3> -->
             <aside class="notes">
                 (1 min, total 1) Good afternoon, everyone. [Smile, eye contact]
                 Second last talk today. This is not the morning “vibe coding” session—this is how to build smarter with a plan, not letting AI freestyle your codebase.
             </aside>
         </section>
 
-        <!-- Slide 02 — Conference Context -->
+        <!-- Slide 02 — Agenda -->
         <section>
-            <!-- IMAGE PROMPT: Split-screen messy “Vibe coding” desk vs organised “Strategic coding” desk, clean modern pop art, minimal background, palette blue/green/orange. -->
-            <img src="./assets/images/slide-02.png" alt="Vibe vs Strategic" loading="lazy" />
-            <h2>Today’s Context</h2>
+            <h2>Agenda</h2>
             <ul>
-                <li class="fragment">Morning: <em>Vibe coding</em></li>
-                <li class="fragment">Afternoon: <strong>Strategic orchestration</strong></li>
+                <li class="fragment"><strong>Harper Reed blog posts</strong> → spark</li>
+                <li class="fragment">Raw prompting → loops</li>
+                <li class="fragment">Brainstorm → Plan → Execute</li>
+                <li class="fragment">Add guardrails (tests / CI / rules guidelines)</li>
+                <li class="fragment"><strong>Destination</strong>: Strategic orchestration</li>
             </ul>
             <aside class="notes">
-                (1 min, total 2) Harper Reed’s posts highlight the shift. We’ll explore AI as collaborator + guardrails.
-                [Ask] Who used AI to write code in the last month?
+                (2 min, total 2) 
+                <ul>
+                <li>Set expectations: We anchor on Harper Reed’s posts highlighting the shifting developer role. </li>
+                <li>Natural progression: early vibe / exploratory prompting → structure (Brainstorm → Plan → Execute) → guardrails (tests, standards, CI, roles) → strategic orchestration. </li>
+                <li>Tease: specification dialog, blueprint & prompt plan, defensive engineering, standards enforcement, examples.</li>
+                </ul>
             </aside>
         </section>
 
         <!-- Slide 03 — The Shift -->
         <section>
             <!-- IMAGE PROMPT: Large pull quote “The way we build software is changing forever.”, pop art minimal. -->
-            <img src="./assets/images/slide-03.png" alt="Shift quote" loading="lazy" />
-            <blockquote>“The way we build software is changing forever.”</blockquote>
+            <img src="./assets/images/slide-03.png" alt="Shift quote" />
+            <!-- <blockquote>“The way we build software is changing forever.”</blockquote> -->
             <aside class="notes">
                 (2 min, total 4) The shift isn’t only tools—it’s how we think, plan, and validate.
                 From lone flow state to strategic orchestration.
@@ -76,7 +81,7 @@
         <!-- Slide 04 — AI as Collaborator -->
         <section>
             <!-- IMAGE PROMPT: Human ⇄ AI loop (“Ideas”, “Code”, “Feedback”), pop art. -->
-            <img src="./assets/images/slide-04.png" alt="Human-AI loop" loading="lazy" />
+            <img src="./assets/images/slide-04.png" width="250" alt="Human-AI loop" />
             <h2>AI as Collaborator</h2>
             <ul>
                 <li class="fragment">Not simply generating code</li>
@@ -92,7 +97,7 @@
         <!-- Slide 05 — Harper’s 3-Step Loop -->
         <section>
             <!-- IMAGE PROMPT: Circular Brainstorm → Plan → Execute, icons (lightbulb/checklist/brackets), pop art. -->
-            <img src="./assets/images/slide-05.png" alt="Loop" loading="lazy" />
+            <img src="./assets/images/slide-05.png" width="250" alt="Loop" />
             <h2>Harper’s 3-Step Loop</h2>
             <ul>
                 <li class="fragment">Brainstorm → Specification</li>
@@ -105,26 +110,70 @@
             </aside>
         </section>
 
-        <!-- Slide 06 — Idea Honing -->
+        <!-- Slide 06 — Idea Honing (Vertical Stack) -->
         <section>
-            <!-- IMAGE PROMPT: Chatbot Q&A on laptop building a specification, pop art. -->
-            <img src="./assets/images/slide-06.png" alt="Idea Q&A" loading="lazy" />
-            <h2>Idea Honing</h2>
-            <ul>
-                <li class="fragment">Describe idea; AI asks one question at a time</li>
-                <li class="fragment">Outputs developer-ready specification</li>
-                <li class="fragment">Reqs, architecture, data, errors, testing</li>
-            </ul>
-            <aside class="notes">
-                (4 min, total 13) Describe your idea; AI probes one question at a time, digging into details until a developer-ready spec emerges:
-                requirements, architecture choices, data handling, error strategies, testing plans.
-            </aside>
+            <!-- First vertical slide: overview -->
+            <section>
+                <!-- IMAGE PROMPT: Chatbot Q&A on laptop building a specification, pop art. -->
+                <img src="./assets/images/slide-06.png" width="250" alt="Idea Q&A" />
+                <h2>Idea Honing</h2>
+                <ul>
+                    <li class="fragment">Describe idea; AI asks one question at a time</li>
+                    <li class="fragment">Outputs developer-ready specification</li>
+                    <li class="fragment">Reqs, architecture, data, errors, testing</li>
+                </ul>
+                <aside class="notes">
+                    (4 min, total 13) Describe your idea; AI probes one question at a time, digging into details until a developer-ready spec emerges: requirements, architecture choices, data handling, error strategies, testing plans.
+                    Explain vertical nav: down for the actual prompt template.
+                </aside>
+            </section>
+            <!-- Second vertical slide: prompt template -->
+            <section class="prompt-small">
+                <h3>Idea honing Prompt</h3>
+                <blockquote>
+Ask me one question at a time so we can develop a thorough, step-by-step spec for this idea. Each question should build on my previous answers, and our end goal is to have a detailed specification I can hand off to a developer. Let’s do this iteratively and dig into every relevant detail. Remember, only one question at a time.
+
+Here’s the idea:
+{IDEA}
+                </blockquote>
+                <aside class="notes">
+                    Emphasize: one question at a time → depth over breadth; stop when spec is implementation-ready.
+                </aside>
+            </section>
+            
+            <!-- Third vertical slide: prompt template -->
+            <section class="prompt-small">
+                <h3>Specification Prompt</h3>
+                <blockquote>
+                    Now that we’ve wrapped up the brainstorming process, can you compile our findings into a comprehensive, developer-ready specification? Include all relevant requirements, architecture choices, data handling details, error handling strategies, and a testing plan so a developer can immediately begin implementation.
+                </blockquote>
+                <aside class="notes">
+                    Emphasize: one question at a time → depth over breadth; stop when spec is implementation-ready.
+                </aside>
+            </section>
+
+            <!-- Fourth vertical slide: prompt template -->
+            <section class="prompt-small">
+                <h3>Planning Prompt</h3>
+                <blockquote>
+                    Draft a detailed, step-by-step blueprint for building this project. Then, once you have a solid plan, break it down into small, iterative chunks that build on each other. Look at these chunks and then go another round to break it into small steps. Review the results and make sure that the steps are small enough to be implemented safely with strong testing, but big enough to move the project forward. Iterate until you feel that the steps are right sized for this project.
+
+From here you should have the foundation to provide a series of prompts for a code-generation LLM that will implement each step in a test-driven manner. Prioritize best practices, incremental progress, and early testing, ensuring no big jumps in complexity at any stage. Make sure that each prompt builds on the previous prompts, and ends with wiring things together. There should be no hanging or orphaned code that isn't integrated into a previous step.
+
+Make sure and separate each prompt section. Use markdown. Each prompt should be tagged as text using code tags. The goal is to output prompts, but context, etc is important as well.
+
+{SPEC}
+                </blockquote>
+                <aside class="notes">
+                    Emphasize: one question at a time → depth over breadth; stop when spec is implementation-ready.
+                </aside>
+            </section>
         </section>
 
         <!-- Slide 07 — Reasoning AI Blueprint -->
         <section>
             <!-- IMAGE PROMPT: Flow: Specification → Reasoning AI → Blueprint → Prompt Plan & Checklist, pop art. -->
-            <img src="./assets/images/slide-07.png" alt="Blueprint flow" loading="lazy" />
+            <!-- <img src="./assets/images/slide-07.png" alt="Blueprint flow" /> -->
             <h2>Blueprint & Prompt Plan</h2>
             <ul>
                 <li class="fragment">Small, safe, iterative chunks</li>
@@ -137,28 +186,29 @@
             </aside>
         </section>
 
-        <!-- Slide 08 — Example: Mobile + Watch App -->
+        <!-- Slide 08 — Example: Watch App with Companion App -->
         <section>
             <!-- IMAGE PROMPT: Phone + smartwatch mockups with modern app UI, pop art. -->
-            <img src="./assets/images/slide-08.png" alt="Mobile + Watch" loading="lazy" />
-            <h2>Example: Mobile + Watch (Hours)</h2>
+            <!-- <img src="./assets/images/slide-08.png" alt="Mobile + Watch" /> -->
+            <h2>Example: Watch App with Companion App</h2>
             <ul>
                 <li class="fragment">AI handled boilerplate & integrations</li>
                 <li class="fragment">Focus on concept & testing</li>
+                <li class="fragment">Idea validation through rapid prototyping</li>
             </ul>
             <aside class="notes">
-                (4 min, total 19) Built a mobile + watch app in hours to validate an idea.
+                (4 min, total 19) Built a watch app with companion app in hours to validate an idea.
                 AI took boilerplate; I focused on concept and tests. Speed without sloppiness.
             </aside>
         </section>
 
-        <!-- Slide 09 — Example: Live Client POC -->
+        <!-- Slide 09 — Example: Client POC -->
         <section>
             <!-- IMAGE PROMPT: Team meeting with prototype on laptop, discussion, pop art. -->
-            <img src="./assets/images/slide-09.png" alt="Client POC" loading="lazy" />
-            <h2>Example: Live Client POC</h2>
+            <!-- <img src="./assets/images/slide-09.png" alt="Client POC" /> -->
+            <h2>Example: Client POC</h2>
             <ul>
-                <li class="fragment">Requirements captured live</li>
+                <li class="fragment">Requirements captured</li>
                 <li class="fragment">Working POC by meeting end</li>
             </ul>
             <aside class="notes">
@@ -170,7 +220,7 @@
         <!-- Slide 10 — Micro Waterfall Cycles -->
         <section>
             <!-- IMAGE PROMPT: Plan/Build/Review loop, pop art. -->
-            <img src="./assets/images/slide-10.png" alt="Micro waterfall" loading="lazy" />
+            <!-- <img src="./assets/images/slide-10.png" alt="Micro waterfall" /> -->
             <h2>Micro Waterfall</h2>
             <ul>
                 <li class="fragment">Plan → Build → Review (loop)</li>
@@ -184,7 +234,7 @@
         <!-- Slide 11 — The Evolving Role -->
         <section>
             <!-- IMAGE PROMPT: Icons PM/Architect/QA/Dev, pop art. -->
-            <img src="./assets/images/slide-11.png" alt="Strategic roles" loading="lazy" />
+            <!-- <img src="./assets/images/slide-11.png" alt="Strategic roles" /> -->
             <h2>Strategic Engineer</h2>
             <ul>
                 <li class="fragment">Shape prompts</li>
@@ -201,7 +251,7 @@
         <!-- Slide 12 — Guardrails Matter -->
         <section>
             <!-- IMAGE PROMPT: Robot writes wrong code; human facepalms, pop art. -->
-            <img src="./assets/images/slide-12.png" alt="Guardrails" loading="lazy" />
+            <!-- <img src="./assets/images/slide-12.png" alt="Guardrails" /> -->
             <h2>Hyper-Defensive Coding</h2>
             <ul>
                 <li class="fragment">Static analysis</li>
@@ -216,7 +266,7 @@
         <!-- Slide 13 — Habits for Safety -->
         <section>
             <!-- IMAGE PROMPT: Git history + concise tests, pop art. -->
-            <img src="./assets/images/slide-13.png" alt="Habits" loading="lazy" />
+            <!-- <img src="./assets/images/slide-13.png" alt="Habits" /> -->
             <h2>Practical Habits</h2>
             <ul>
                 <li class="fragment">Frequent commits (rollback points)</li>
@@ -227,13 +277,20 @@
             <aside class="notes">
                 (3 min, total 35) Commit often; keep the suite lean; let AI help with Implementation Guides; rely on the blueprint as a safety net.
                 [Ask] Perfectly wrong code stories?
+
+                <ul>
+                <li>Frequent commits (rollback points)</li>
+                <li>Prune pointless tests</li>
+                <li>Comprehensive documentation</li>
+                <li>Control through planning</li>
+            </ul>
             </aside>
         </section>
 
         <!-- Slide 14 — Enforceable Standards -->
         <section>
             <!-- IMAGE PROMPT: Editor with .editorconfig rules, pop art. -->
-            <img src="./assets/images/slide-14.png" alt="Standards" loading="lazy" />
+            <!-- <img src="./assets/images/slide-14.png" alt="Standards" /> -->
             <h2>Rules for Humans & AI</h2>
             <ul>
                 <li class="fragment">Tech stack</li>
@@ -250,7 +307,7 @@
         <!-- Slide 15 — Standards in Action -->
         <section>
             <!-- IMAGE PROMPT: Split messy repo vs tidy repo, pop art. -->
-            <img src="./assets/images/slide-15.png" alt="Standards enforced" loading="lazy" />
+            <!-- <img src="./assets/images/slide-15.png" alt="Standards enforced" /> -->
             <h2>CI/CD Enforcement</h2>
             <ul>
                 <li class="fragment">Prevents drift</li>
@@ -265,30 +322,22 @@
         <!-- Slide 16 — Bringing It Together -->
         <section>
             <!-- IMAGE PROMPT: Three puzzle pieces “Plan”, “AI”, “Guardrails”, pop art. -->
-            <img src="./assets/images/slide-16.png" alt="Puzzle" loading="lazy" />
+            <!-- <img src="./assets/images/slide-16.png" alt="Puzzle" /> -->
             <h2>Plan × AI × Guardrails</h2>
             <p class="fragment">Fast code is useless without control.</p>
             <aside class="notes">
-                (2 min, total 43) Together they produce predictable, maintainable, safe output.
-            </aside>
-        </section>
-
-        <!-- Slide 17 — Callback & Conclusion -->
-        <section>
-            <!-- IMAGE PROMPT: Split “Vibe coding” vs “Strategic orchestration”, pop art. -->
-            <img src="./assets/images/slide-17.png" alt="Conclusion" loading="lazy" />
-            <h2>Not Vibe Coding — Orchestration</h2>
-            <aside class="notes">
-                (3 min, total 46) After the morning vibe session, here’s the other half:
+                (5 min, total 46) Together they produce predictable, maintainable, safe output.
+                After the morning vibe session, here’s the other half:
                 not just what AI can generate, but how we keep it reliable and aligned.
                 The difference between success and chaos is the plan you give your AI.
             </aside>
         </section>
+        
 
         <!-- Slide 18 — Q&A -->
         <section>
             <!-- IMAGE PROMPT: Large bold “Questions?” with subtle tech lines, pop art. -->
-            <img src="./assets/images/slide-18.png" alt="Q&A" loading="lazy" />
+            <!-- <img src="./assets/images/slide-18.png" alt="Q&A" /> -->
             <h2>Questions?</h2>
             <aside class="notes">
                 (up to 10 min, total 50+) Open floor. Invite examples of AI workflows, guardrails that saved projects, and standards teams enforce today.
@@ -298,18 +347,17 @@
     </div>
 </div>
 
-<!-- Reveal core (local) -->
 <script src="./node_modules/reveal.js/dist/reveal.js"></script>
-<!-- Plugins (local) -->
 <script src="./node_modules/reveal.js/plugin/notes/notes.js"></script>
 <script src="./node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+<script src="./node_modules/reveal.js/plugin/markdown/markdown.js"></script>
 
 <script>
     Reveal.initialize({
         hash: true,
         slideNumber: true,
         progress: true,
-        plugins: [ RevealNotes, RevealHighlight ]
+        plugins: [ RevealMarkdown, RevealNotes, RevealHighlight ]
     });
 </script>
 </body>
