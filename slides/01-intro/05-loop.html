@@ -1,22 +1,30 @@
 <section data-markdown>
   <textarea data-template>
-    <img src="./assets/images/slide-05.png" width="250px" alt="Loop" />
+    <!-- IMAGE PROMPT: A sleek spiral or circular diagram showing 3 phases: "Idea Honing" (lightbulb + question marks), "Blueprint" (architectural plan/grid), "Execute" (gear/code symbols). Center shows "15 min" timer. Arrows suggest rapid iteration. Style: modern infographic, energetic but controlled. -->
+    
+    <img src="img/slide-05.png" width="250px" alt="Loop" />
 
-    ## Harper’s 3-Step Loop
+    ## Rapid Planning Loop
 
     <ul>
-      <li class="fragment">Brainstorm → Specification</li>
-      <li class="fragment">Plan → Steps</li>
-      <li class="fragment">Execute → Code</li>
+      <li class="fragment">Idea Honing → Specification</li>
+      <li class="fragment">Blueprint → Chunked Prompt Plan</li>
+      <li class="fragment">Execute → Review (tests / refine)</li>
     </ul>
 
-    <span class="fragment">Planning can take ~15 minutes.</span>
+    <span class="fragment">Full planning often in a few minutes.</span>
 
     Note:
-    Detail each loop step tying to script:
-    1 Brainstorm/spec: short exchanges; AI clarifies until sharp, testable requirements.
-    2 Plan: break into logical, self‑contained steps; consider dependencies & parallelism.
-    3 Execute: feed steps with just enough context for consistent output.
-    Emphasize surprising speed: whole planning phase can be ~15 minutes—usable live in meetings. Transition to Part 2 (blueprint / planning phase deep dive).
+    - Idea Honing → Specification: one‑question‑at‑a‑time interrogation yields developer‑ready spec (requirements, architecture, data, errors, testing).
+    - Blueprint → Prompt Plan: reasoning model (not code yet) breaks spec into safe, incremental, integrated steps; produces prompts + checklist.
+    - Execute → Review: code‑gen model implements each prompt sequentially; automated tests + static analysis + human spot checks close the loop.
+  
+    Micro waterfall: distinct Plan / Build / Review phases but rapid, repeatable cycles.
+  
+    Concurrency hook: multiple agents can run off the same blueprint (feature, docs, tests) without losing coherence.
+
+    Emphasize speed: in a few minutes to go from raw idea to actionable blueprint enables live planning in meetings / pairing.
+
+    Transition: Next we deep dive Idea Honing mechanics, then show prompts that drive specification & blueprint.
   </textarea>
 </section>

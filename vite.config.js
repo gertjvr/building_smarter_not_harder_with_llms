@@ -5,6 +5,7 @@ import { getSlides } from './slides-loader.js';
 
 export default defineConfig({
   base: './',
+  publicDir: 'public',
   plugins: [
     createHtmlPlugin({
       inject: {

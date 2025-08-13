@@ -1,5 +1,7 @@
 <section data-markdown>
   <textarea data-template>
+    <!-- IMAGE PROMPT: A compact waterfall diagram with 3 tight phases (Plan, Build, Review) in a rapid loop. Multiple parallel streams showing concurrent agents (features, docs, tests). Emphasis on speed and iteration, not traditional lengthy waterfall. Style: dynamic flow diagram, modern and agile. -->
+    
     ## Micro Waterfall
 
     <ul>
@@ -8,6 +10,17 @@
     </ul>
     
     Note:
-    Script Part 3: Micro waterfall cycles. Essence: 1 Plan in detail (predictable output) 2 Generate code quickly 3 Review & refine. Emphasize parallelism: separate agents for features, documentation, tests—concurrent progress without losing control.
+    Micro Waterfall (from talk: “carefully defining a spec, generating the code, then reviewing it”):
+      1. Plan (spec + blueprint) – deterministic scaffold.
+      2. Build (code‑gen executes each prepared prompt sequentially).
+      3. Review (tests + static analysis + human spot checks) → adjust → next loop.
+    
+    Feels iterative yet phases are intentionally *distinct* to reduce drift.
+    
+    Parallelism: spawn agents—feature implementation, documentation synthesis (implementation guide), test enhancement—driven off same plan → “concurrency on steroids”.
+    
+    Stress control: speed without losing architectural coherence or quality.
+    
+    Transition: This speed creates new risks. We need guardrails before we can safely operate at this velocity.
   </textarea>
 </section>

@@ -1,0 +1,23 @@
+<section data-markdown>
+  <textarea data-template>
+    <!-- IMAGE PROMPT: An architectural blueprint being broken down into numbered, sequential building blocks/Lego pieces. Each piece labeled with steps. Shows progression from large complex plan to manageable, safe chunks. Style: technical blueprint aesthetic meets modern building blocks. -->
+    
+    ## Blueprint & Prompt Plan
+
+    <ul>
+      <li class="fragment">Small, safe, iterative chunks</li>
+      <li class="fragment">Clear prompts for code-gen</li>
+      <li class="fragment">Reusable checklist</li>
+    </ul>
+  
+    Note:
+    Blueprint phase (full talk: "reasoning AI creates detailed blueprint"):
+      - Use a *reasoning* model (not yet code‑gen) to transform spec into a staged implementation plan.
+      - Criteria for each chunk: small enough for safe review + rollback; meaningful forward progress; test visibility early.
+      - Instruct AI to *iterate* on chunk sizing (second pass to shrink/merge until right‑sized).
+      - Deliverables: ordered list of steps, rationale per step, explicit prompts for code‑gen model, and a resumable checklist (state persistence across sessions / agents).
+      - Benefit: eliminates big leaps; reduces orphaned code; supports concurrent agents (feature / docs / tests).
+    
+    Transition: Show concrete prompt used to elicit this plan.
+  </textarea>
+</section>
