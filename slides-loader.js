@@ -10,7 +10,21 @@ function readSlides(dir) {
     if (stat.isDirectory()) {
       slidesContent.push(...readSlides(filePath));
     } else if (stat.isFile() && /\.(html|md)$/.test(entry)) {
-      slidesContent.push(fs.readFileSync(filePath, 'utf-8'));
+      let content = fs.readFileSync(filePath, 'utf-8');
+      
+      // Fix image paths for production build
+      if (process.env.NODE_ENV === 'production') {
+        content = content.replace(
+          /src="img\//g, 
+          'src="/building_smarter_not_harder_with_llms/img/'
+        );
+        content = content.replace(
+          /\]\(img\//g, 
+          '](/building_smarter_not_harder_with_llms/img/'
+        );
+      }
+      
+      slidesContent.push(content);
     }
   });
   return slidesContent;
