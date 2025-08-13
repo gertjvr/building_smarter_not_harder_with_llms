@@ -4,7 +4,7 @@ import path from 'path';
 import { getSlides } from './slides-loader.js';
 
 export default defineConfig({
-  base: './',
+  base: process.env.NODE_ENV === 'production' ? '/building_smarter_not_harder_with_llms/' : './',
   publicDir: 'public',
   plugins: [
     createHtmlPlugin({
