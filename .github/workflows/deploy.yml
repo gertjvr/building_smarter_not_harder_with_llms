@@ -45,6 +45,11 @@ jobs:
         env:
           NODE_ENV: production
 
+      - name: Debug build output
+        run: |
+          ls -la dist/
+          ls -la dist/img/ || echo "No img directory in dist"
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
