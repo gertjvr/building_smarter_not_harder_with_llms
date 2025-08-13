@@ -40,20 +40,10 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Debug source output
-        run: |
-          ls -la public/
-          ls -la public/img
-
       - name: Build presentation
         run: pnpm build
         env:
           NODE_ENV: production
-
-      - name: Debug build output
-        run: |
-          ls -la dist/
-          ls -la dist/img/ || echo "No img directory in dist"
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
