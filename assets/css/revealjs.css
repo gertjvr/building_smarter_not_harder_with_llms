@@ -1,0 +1,36 @@
+:root {
+  --brand-blue: #1f6feb;
+  --brand-green: #2fbf71;
+  --brand-orange: #ff8a00;
+}
+.reveal h1,
+.reveal h2,
+.reveal h3 {
+  letter-spacing: 0.2px;
+}
+.reveal h1 {
+  font-size: 2.1em;
+}
+.reveal h2 {
+  font-size: 1.6em;
+}
+.reveal h3 {
+  font-size: 1.25em;
+  color: #333;
+}
+.reveal p,
+.reveal li {
+  line-height: 1.35;
+  font-size: 1.05em;
+}
+.reveal ul {
+  margin-top: 0.6em;
+}
+.reveal blockquote {
+  border-left: 4px solid var(--brand-blue);
+  padding-left: 0.8em;
+  color: #111;
+}
+.brand-accent {
+  color: var(--brand-orange);
+}

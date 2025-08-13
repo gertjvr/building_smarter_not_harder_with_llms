@@ -1,0 +1,80 @@
+<section>
+  <style>
+    /* Scoped just to this slide */
+    .prompt-card {
+      display: flex;
+      flex-direction: column;
+      max-height: 78vh;
+      overflow: hidden;
+      position: relative;
+      max-width: 960px; /* requested max width */
+      margin-inline: auto;
+    }
+    .prompt-card .prompt-body {
+      overflow-y: auto;
+      max-height: calc(78vh - 60px); /* leave room for toolbar */
+      padding-right: .5rem; /* space for scrollbar */
+    }
+    .prompt-card .prompt-body::-webkit-scrollbar { width: 8px; }
+    .prompt-card .prompt-body::-webkit-scrollbar-thumb { background:#b9b9b9; border-radius:4px; }
+    .prompt-toolbar {
+      margin-top: auto;
+      display: flex;
+      justify-content: space-between;
+      gap: .5rem;
+      padding-top: .5rem;
+      background: #fff;
+      position: sticky;
+      bottom: 0;
+    }
+  </style>
+
+  <h2>Plan Prompt</h2>
+
+  <article class="prompt-card" aria-label="Prompt">
+    <div class="prompt-body">
+      <p>
+        Draft a detailed, step-by-step blueprint for building this project. Then, once you have a solid plan, break it down into small, iterative chunks that build on each other. Look at these chunks and then go another round to break it into small steps. Review the results and make sure that the steps are small enough to be implemented safely with strong testing, but big enough to move the project forward. Iterate until you feel that the steps are right sized for this project.<br><br>
+        From here you should have the foundation to provide a series of prompts for a code-generation LLM that will implement each step in a test-driven manner. Prioritize best practices, incremental progress, and early testing, ensuring no big jumps in complexity at any stage. Make sure that each prompt builds on the previous prompts, and ends with wiring things together. There should be no hanging or orphaned code that isn't integrated into a previous step.<br><br>
+        Make sure and separate each prompt section. Use markdown. Each prompt should be tagged as text using code tags. The goal is to output prompts, but context, etc is important as well.<br><br>
+        &lt;SPEC&gt;
+      </p>
+    </div>
+
+    <div class="prompt-toolbar">
+      <div class="prompt-plus">+</div>
+
+      <div class="prompt-cta">
+        <!-- Mic -->
+        <button class="icon-btn" aria-label="Microphone" title="Microphone">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path
+              d="M12 14a4 4 0 0 0 4-4V6a4 4 0 1 0-8 0v4a4 4 0 0 0 4 4Zm7-4a7 7 0 0 1-14 0M12 21v-3"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+          </svg>
+        </button>
+
+        <!-- Up arrow (send) -->
+        <button class="icon-btn primary" aria-label="Send" title="Send">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path
+              d="M12 6v12M12 6l-5 5M12 6l5 5"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </article>
+
+  <aside class="notes">
+    Script tie-in: This is culmination of idea honing. Reinforce categories the
+    audience just heard: requirements, architecture, data, errors, testing.
+  </aside>
+</section>

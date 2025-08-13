@@ -1,87 +1,70 @@
 # Building Smarter, Not Harder with LLMs
 
-A RevealJS presentation about leveraging Large Language Models effectively.
+Reveal.js presentation about leveraging Large Language Models effectively.
+
+Now powered by Vite with hot reloading and external slide files (mirrors the structure of `reveal-slide-vite`).
 
 ## Getting Started
 
 ### Prerequisites
 
-- A modern web browser (Chrome, Firefox, Safari, Edge)
-- Local web server (optional, but recommended for full functionality)
+- Node.js 18+ (LTS recommended)
+- pnpm / npm / yarn
+- Modern browser
 
 ### Running the Presentation
 
-#### Option 1: Using pnpm (Recommended)
-For the best development experience with automatic dependency management:
+Install dependencies and start dev server (with HMR):
 
 ```bash
-# Install dependencies
-pnpm install
+```text
+project/
+├── assets/
+│   ├── images/
+│   └── js/
+│       └── main.js
+├── slides/
+│   ├── 01-intro/                # Opening, context & shift
+│   │   ├── 01-title.html
+│   │   ├── 02-agenda.html
+│   │   ├── 03-shift.html
+│   │   ├── 04-ai-collab.html
+│   │   └── 05-loop.html
+│   ├── 02-process/              # Specification & planning workflow
+│   │   ├── 01-idea-honing.html
+│   │   ├── 02-blueprint.html
+│   │   └── 03-micro-waterfall.html
+│   ├── 03-examples/             # Concrete examples
+│   │   ├── 01-example-watch.html
+│   │   └── 02-example-client.html
+│   ├── 04-practices/            # Roles & defensive practices
+│   │   ├── 01-strategic-engineer.html
+│   │   ├── 02-defensive.html
+│   │   └── 03-habits.html
+│   ├── 05-standards/            # Standards & enforcement
+│   │   ├── 01-standards.html
+│   │   └── 02-ci-enforcement.html
+│   └── 06-wrap/                 # Conclusion
+│       ├── 01-bringing-it-together.html
+│       └── 02-questions.html
+├── index.html                   # Template with slide injection
+├── slides-loader.js             # Recursively loads & injects slides
+├── vite.config.js               # Vite + watch plugin
+├── package.json
+└── README.md
+```
+Update the theme import in `assets/js/main.js` (currently `white.css`). Any theme from `reveal.js/dist/theme/` can be imported, e.g.:
 
-# Start the development server on port 3000
-pnpm dev
+```js
+import 'reveal.js/dist/theme/black.css';
 ```
 
-Then open your browser and navigate to `http://localhost:3000`
-
-#### Option 2: Direct File Access
-Simply open `index.html` in your web browser by double-clicking the file.
-
-#### Option 3: Other Local Web Servers
-For alternative setups to avoid potential CORS issues:
-
-```bash
-# Using Python 3
-python -m http.server 8000
-
-# Using Python 2
-python -m SimpleHTTPServer 8000
-
-# Using Node.js (if you have http-server installed)
-npx http-server
-
-# Using PHP
-php -S localhost:8000
-```
-
-Then open your browser and navigate to `http://localhost:8000`
-
-## Presentation Controls
-
-- **Space** or **Arrow Keys**: Navigate between slides
-- **ESC**: Overview mode
-- **F**: Fullscreen mode
-- **S**: Speaker notes (if available)
-- **B**: Blank screen
-- **?**: Help with keyboard shortcuts
-
-## Customization
-
-### Changing Themes
-The presentation uses the "black" theme by default. You can change it by modifying line 11 in `index.html`:
-
-```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/dist/theme/[THEME_NAME].css" id="theme">
-```
-
-Available themes:
-- black (default)
-- white
-- league
-- beige
-- sky
-- night
-- serif
-- simple
-- solarized
-- blood
-- moon
-
-### Adding Content
-- Edit the slides within the `<div class="slides">` section in `index.html`
-- Use `<section>` for each slide
-- Use nested `<section>` elements for vertical slide navigation
-- Add `class="fragment"` to elements for step-by-step reveals
+### Adding Content (External Slides)
+- Add new `.html` (or `.md`) files inside the `slides/` directory.
+- Files are recursively discovered and injected into `index.html` at build/dev time.
+- Use `<section>` per slide (nested sections = vertical stacks).
+- Use `data-markdown` + `<textarea data-template>` to write Markdown.
+- Use `class="fragment"` for stepwise reveals.
 
 ### Adding Speaker Notes
 Add speaker notes using the `<aside class="notes">` element within any slide:
@@ -98,38 +81,38 @@ Add speaker notes using the `<aside class="notes">` element within any slide:
 
 ## Features Included
 
-- Responsive design
-- Slide transitions and animations
-- Fragment animations for step-by-step reveals
-- Syntax highlighting for code blocks
-- Speaker notes support
-- Keyboard navigation
-- Touch/swipe support for mobile devices
-- Overview mode
-- Fullscreen support
+- Vite dev server + HMR for slides
+- External slide files (HTML/Markdown) auto-injected
+- Syntax highlighting (highlight.js / monokai)
+- Speaker notes (`S` key)
+- Hash routing + history + slide numbers
+- Mobile/touch support
+- Easy theme switching
 
-## Content Structure
+## Project Structure
 
-The presentation includes the following sections:
-
-1. **Title Slide**: Introduction and presentation title
-2. **Agenda**: Overview of topics covered
-3. **What are LLMs?**: Introduction to Large Language Models
-4. **Working Smarter**: Key principles for effective LLM usage
-5. **Practical Applications**: Real-world use cases
-6. **Best Practices**: Guidelines for optimal implementation
-7. **Common Pitfalls**: What to avoid when using LLMs
-8. **Future Considerations**: Looking ahead
-9. **Key Takeaways**: Summary of main points
-10. **Questions**: Closing slide
+```
+project/
+├── assets/
+│   ├── images/              # Slide images
+│   └── js/
+│       └── main.js          # Reveal initialization
+├── slides/                  # External slide files (html/md)
+├── index.html               # Template with slide injection
+├── slides-loader.js         # Recursively loads slide content
+├── vite.config.js           # Vite configuration + watch plugin
+├── package.json
+└── README.md
+```
 
 ## Technical Details
 
-- **RevealJS Version**: 4.6.1
-- **Dependencies**: Loaded via CDN for easy setup
-- **Plugins**: Markdown, Highlight, and Notes plugins included
-- **Theme**: Black theme with custom fragment styling
+- **Build Tool**: Vite 5
+- **Reveal.js**: 5.x
+- **Plugins**: Markdown, Highlight, Notes
+- **Loader**: Custom `slides-loader.js` injecting content via `vite-plugin-html`
+- **HMR**: Custom watch plugin triggers full reload on slide edits
 
 ## License
 
-This presentation template is free to use and modify for your needs.
+MIT (see `package.json`).

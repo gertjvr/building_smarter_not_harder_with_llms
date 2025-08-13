@@ -1,23 +1,30 @@
 {
   "name": "building-smarter-not-harder-with-llms",
-  "version": "1.0.0",
-  "description": "A RevealJS presentation about leveraging Large Language Models effectively",
-  "main": "index.html",
+  "version": "1.1.0",
+  "description": "A RevealJS presentation about leveraging Large Language Models effectively (Vite-powered)",
+  "type": "module",
   "scripts": {
-    "dev": "serve -s . -l 5000"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "deploy": "vite build && gh-pages -d dist" 
   },
   "keywords": [
     "presentation",
     "revealjs",
     "llm",
-    "slides"
+    "slides",
+    "vite"
   ],
   "author": "",
   "license": "MIT",
-  "devDependencies": {
-    "serve": "^14.2.1"
-  },
   "dependencies": {
+    "highlight.js": "^11.9.0",
     "reveal.js": "^5.2.1"
+  },
+  "devDependencies": {
+    "gh-pages": "^6.1.1",
+    "vite": "^5.3.0",
+    "vite-plugin-html": "^3.2.2"
   }
 }
