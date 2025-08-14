@@ -6,7 +6,11 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview" 
+    "preview": "vite preview",
+    "dev:master": "vite --open /?master=true",
+    "dev:client": "vite --open /",
+    "dev:notes": "vite --open /?notes=true",
+    "setup:multiplex": "node setup-multiplex.js"
   },
   "keywords": [
     "presentation",
@@ -19,7 +23,9 @@
   "license": "MIT",
   "dependencies": {
     "highlight.js": "^11.9.0",
-    "reveal.js": "^5.2.1"
+    "reveal.js": "^5.2.1",
+    "pusher-js": "^8.4.0",
+    "socket.io-client": "^4.7.5"
   },
   "devDependencies": {
     "gh-pages": "^6.1.1",
