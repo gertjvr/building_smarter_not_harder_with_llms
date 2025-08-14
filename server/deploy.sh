@@ -7,7 +7,7 @@ set -e  # Exit on any error
 
 # Configuration
 RG="rg-ddd-outback"
-ACA_ENV="ce-ddd-outback"
+ACA_ENV="ce-dddoutback"
 ACA_APP="reveal-multiplex"
 LOC="australiaeast"
 ACR="dddoutback"
@@ -109,16 +109,5 @@ if ! az containerapp create \
 fi
 
 echo "✅ Container App deployed successfully!"
-
-# Get the FQDN of the deployed container app
-echo "🔗 Getting Container App access URL..."
-FQDN=$(az containerapp show -g "$RG" -n "$ACA_APP" --query properties.configuration.ingress.fqdn -o tsv)
-
-if [ -n "$FQDN" ]; then
-    echo "HTTPS URL: https://${FQDN}"
-    echo "🔒 Container Apps provides automatic HTTPS termination"
-else
-    echo "⚠️  Could not retrieve Container App FQDN. Check the Azure portal for access details."
-fi
 
 echo "============================================="
