@@ -81,27 +81,6 @@ Edit `pusher.config.js` if you need to customize:
 - `ESC` - Exit fullscreen
 - `F` - Enter fullscreen
 
-## Adding Speaker Notes to Slides
-
-Add notes to any slide using the `<aside class="notes">` element:
-
-```html
-<section>
-    <h2>Your Slide Title</h2>
-    <p>Slide content here...</p>
-    
-    <aside class="notes">
-        These are your speaker notes. They will appear in the speaker notes window
-        but not in the main presentation.
-        
-        You can use:
-        - Bullet points
-        - **Markdown formatting**
-        - Multiple paragraphs
-    </aside>
-</section>
-```
-
 ## Troubleshooting
 
 ### Connection Issues

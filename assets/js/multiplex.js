@@ -10,6 +10,7 @@ const RevealMultiplex = () => {
   let channel = null;
   let deck = null;
   let isConnected = false;
+  let statusVisible = true; // Track if status should be visible
 
   const log = (message, data = null) => {
     console.log(`[Multiplex] ${message}`, data || '');
@@ -25,8 +26,7 @@ const RevealMultiplex = () => {
       pusher = new Pusher(pusherConfig.key, {
         cluster: pusherConfig.cluster,
         forceTLS: true,
-        // Remove authEndpoint since we're using public channels
-        // authEndpoint: '/pusher/auth', 
+        enabledTransports: ['ws', 'wss']
       });
 
       log(`Subscribing to channel: ${pusherConfig.channel}`);
@@ -66,6 +66,9 @@ const RevealMultiplex = () => {
   };
 
   const showConnectionStatus = (status) => {
+    // Don't show status if visibility is disabled
+    if (!statusVisible) return;
+    
     // Remove existing status indicators
     const existing = document.querySelector('.multiplex-status');
     if (existing) existing.remove();
@@ -107,6 +110,32 @@ const RevealMultiplex = () => {
     }
   };
 
+  // Simple broadcast function that works without server-side events
+  const broadcastEvent = (eventType, data) => {
+    if (!isConnected) return;
+    
+    // Since we can't use client events on public channels without a server,
+    // we'll use localStorage as a simple cross-tab communication method
+    // This works for testing on the same device with multiple tabs
+    const broadcastData = {
+      type: eventType,
+      data: data,
+      timestamp: Date.now(),
+      masterId: multiplexConfig.isMaster ? 'master' : 'client'
+    };
+    
+    // Store in localStorage for cross-tab communication
+    localStorage.setItem('reveal-multiplex', JSON.stringify(broadcastData));
+    
+    // Also broadcast using BroadcastChannel API if available
+    if (typeof BroadcastChannel !== 'undefined') {
+      const bc = new BroadcastChannel('reveal-multiplex');
+      bc.postMessage(broadcastData);
+    }
+    
+    log(`Broadcasted ${eventType}:`, data);
+  };
+
   const setupMasterEvents = () => {
     if (!multiplexConfig.isMaster) return;
 
@@ -122,7 +151,7 @@ const RevealMultiplex = () => {
         timestamp: Date.now()
       };
       
-      channel.trigger(pusherConfig.events.slide, slideData);
+      broadcastEvent(pusherConfig.events.slide, slideData);
       log('Slide changed broadcast:', slideData);
     });
 
@@ -138,7 +167,7 @@ const RevealMultiplex = () => {
         timestamp: Date.now()
       };
       
-      channel.trigger(pusherConfig.events.fragment, fragmentData);
+      broadcastEvent(pusherConfig.events.fragment, fragmentData);
       log('Fragment shown broadcast:', fragmentData);
     });
 
@@ -153,7 +182,7 @@ const RevealMultiplex = () => {
         timestamp: Date.now()
       };
       
-      channel.trigger(pusherConfig.events.fragment, fragmentData);
+      broadcastEvent(pusherConfig.events.fragment, fragmentData);
       log('Fragment hidden broadcast:', fragmentData);
     });
   };
@@ -163,16 +192,38 @@ const RevealMultiplex = () => {
 
     log('Setting up client events');
 
-    // Listen for slide changes from master
-    channel.bind(pusherConfig.events.slide, (data) => {
-      log('Received slide change:', data);
-      deck.slide(data.indexh, data.indexv);
+    // Listen for localStorage changes (cross-tab communication)
+    window.addEventListener('storage', (event) => {
+      if (event.key === 'reveal-multiplex' && event.newValue) {
+        try {
+          const broadcastData = JSON.parse(event.newValue);
+          if (broadcastData.masterId === 'master') {
+            handleReceivedEvent(broadcastData.type, broadcastData.data);
+          }
+        } catch (error) {
+          log('Error parsing localStorage event:', error);
+        }
+      }
     });
 
-    // Listen for fragment changes from master
-    channel.bind(pusherConfig.events.fragment, (data) => {
-      log('Received fragment change:', data);
-      
+    // Listen for BroadcastChannel messages
+    if (typeof BroadcastChannel !== 'undefined') {
+      const bc = new BroadcastChannel('reveal-multiplex');
+      bc.addEventListener('message', (event) => {
+        const broadcastData = event.data;
+        if (broadcastData.masterId === 'master') {
+          handleReceivedEvent(broadcastData.type, broadcastData.data);
+        }
+      });
+    }
+  };
+
+  const handleReceivedEvent = (eventType, data) => {
+    log(`Received ${eventType}:`, data);
+    
+    if (eventType === pusherConfig.events.slide) {
+      deck.slide(data.indexh, data.indexv);
+    } else if (eventType === pusherConfig.events.fragment) {
       // First navigate to the correct slide
       deck.slide(data.indexh, data.indexv);
       
@@ -198,18 +249,25 @@ const RevealMultiplex = () => {
           });
         }
       }, 100);
-    });
+    }
   };
 
   const addKeyboardShortcuts = () => {
-    if (!multiplexConfig.isMaster) return;
-
     document.addEventListener('keydown', (event) => {
-      // Press 'M' to toggle multiplex status display
-      if (event.key === 'm' || event.key === 'M') {
-        const statusEl = document.querySelector('.multiplex-status');
-        if (statusEl) {
-          statusEl.style.opacity = statusEl.style.opacity === '0.3' ? '1' : '0.3';
+      // Press 'M' or 'C' to toggle multiplex status display
+      if (event.key === 'm' || event.key === 'M' || event.key === 'c' || event.key === 'C') {
+        statusVisible = !statusVisible;
+        
+        if (statusVisible) {
+          // Show current connection status
+          const currentStatus = isConnected ? 'connected' : 'disconnected';
+          showConnectionStatus(currentStatus);
+        } else {
+          // Hide status completely
+          const statusEl = document.querySelector('.multiplex-status');
+          if (statusEl) {
+            statusEl.remove();
+          }
         }
       }
     });

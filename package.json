@@ -7,9 +7,9 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "dev:master": "vite --open /?master=true",
+    "dev:master": "vite --open /?master=true&secret=",
     "dev:client": "vite --open /",
-    "dev:notes": "vite --open /?notes=true",
+    "dev:notes": "vite --open /?notes=true&secret=",
     "setup:multiplex": "node setup-multiplex.js"
   },
   "keywords": [
