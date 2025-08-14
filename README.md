@@ -184,6 +184,102 @@ The presentation includes a multiplex feature that allows you to control the pre
 - For the master, it shows "Connected (Master)" when connected
 - For clients, it shows "Connected" when the master is connected
 
+## Server Folder & Azure Deployment
+
+The `server/` folder contains a standalone Socket.io server for RevealJS multiplex functionality that can be deployed to Azure Container Instances for production use.
+
+### Server Structure
+
+```text
+server/
+├── index.js           # Socket.io server implementation
+├── package.json       # Server dependencies (Express, Socket.io)
+├── Dockerfile         # Docker configuration for containerization
+├── build.sh          # Build and push script for Azure Container Registry
+├── deploy.sh         # Deployment script for Azure Container Instances
+├── test-multiplex.js  # Test script for server functionality
+└── .dockerignore     # Docker ignore file
+```
+
+### Prerequisites for Azure Deployment
+
+- **Azure CLI**: Installed and configured
+- **Docker**: With buildx support for multi-platform builds
+- **Azure Container Registry**: Pre-configured (default: `dddoutback.azurecr.io`)
+- **Azure Resource Group**: Pre-configured (default: `rg-ddd-outback`)
+
+### Build Script (`build.sh`)
+
+Builds and pushes the Docker image to Azure Container Registry:
+
+```bash
+cd server
+./build.sh
+```
+
+**What it does:**
+- Checks Azure CLI login status and prompts if needed
+- Authenticates with Azure Container Registry
+- Builds Docker image for `linux/amd64` platform
+- Pushes image to ACR as `reveal-multiplex:latest`
+
+### Deploy Script (`deploy.sh`)
+
+Deploys the server to Azure Container Instances:
+
+```bash
+cd server
+./deploy.sh
+```
+
+**What it does:**
+- Ensures Azure CLI and ACR authentication
+- Deletes any existing container instance
+- Creates new Azure Container Instance with:
+  - 1 CPU, 1.5GB memory
+  - Public IP with random DNS name
+  - Port 8080 exposed
+  - Production environment variables
+
+**Output:** Provides the public URL for the deployed server
+
+### Local Development
+
+Run the server locally for development:
+
+```bash
+cd server
+npm install
+npm start
+```
+
+Or with custom port:
+
+```bash
+node index.js -p 3001
+```
+
+### Server Features
+
+- **Master-Client Synchronization**: Handles multiplex state changes
+- **Connection Tracking**: Monitors connected clients and master status
+- **CORS Enabled**: Allows connections from any origin
+- **Status Page**: Simple web interface showing server status
+- **Environment Variables**: 
+  - `PORT`: Server port (default: 8080)
+  - `NODE_ENV`: Environment mode (production/development)
+
+### Testing
+
+Test the deployed server:
+
+```bash
+cd server
+node test-multiplex.js
+```
+
+This connects to the server and verifies Socket.io functionality.
+
 ## Project Structure
 
 ```text
