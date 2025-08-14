@@ -12,7 +12,7 @@ ACA_APP="reveal-multiplex"
 LOC="australiaeast"
 ACR="dddoutback"
 IMAGE="reveal-multiplex"
-TAG="latest"
+TAG=$(git rev-parse --short HEAD)
 PORT=8080
 
 echo "Starting deployment process for ${IMAGE}:${TAG}"
@@ -71,41 +71,51 @@ else
     echo "✅ Container Apps Environment already exists"
 fi
 
-# Step 5: Check and delete existing Container App if it exists
-echo "🗑️  Checking for existing Container App..."
+# Step 5: Check if Container App exists and deploy accordingly
+echo "🔍 Checking for existing Container App..."
 if az containerapp show -g "$RG" -n "$ACA_APP" &>/dev/null; then
-    echo "Existing Container App found. Deleting..."
-    if ! az containerapp delete -g "$RG" -n "$ACA_APP" --yes; then
-        echo "❌ Failed to delete existing Container App"
+    echo "Existing Container App found. Updating..."
+    echo "🔄 Updating Azure Container App..."
+    echo "Container App: ${ACA_APP}"
+    echo "Image: ${LOGIN_SERVER}/${IMAGE}:${TAG}"
+
+    # Update existing Container App
+    if ! az containerapp update \
+      -g "$RG" -n "$ACA_APP" \
+      --image "$LOGIN_SERVER/$IMAGE:$TAG" \
+      --cpu 1.0 \
+      --memory 2.0Gi \
+      --min-replicas 1 \
+      --max-replicas 3; then
+        echo "❌ Container App update failed"
         exit 1
     fi
-    echo "✅ Existing Container App deleted successfully"
+    echo "✅ Container App updated successfully!"
 else
-    echo "✅ No existing Container App found"
-fi
+    echo "Container App not found. Creating new one..."
+    echo "🚀 Creating Azure Container App..."
+    echo "Container App: ${ACA_APP}"
+    echo "Image: ${LOGIN_SERVER}/${IMAGE}:${TAG}"
 
-# Step 6: Deploy to Azure Container Apps
-echo "🚀 Deploying to Azure Container Apps..."
-echo "Container App: ${ACA_APP}"
-echo "Image: ${LOGIN_SERVER}/${IMAGE}:${TAG}"
-
-# Create Container App with HTTPS ingress support
-if ! az containerapp create \
-  -g "$RG" -n "$ACA_APP" \
-  --environment "$ACA_ENV" \
-  --image "$LOGIN_SERVER/$IMAGE:$TAG" \
-  --target-port $PORT \
-  --ingress external \
-  --cpu 1.0 \
-  --memory 2.0Gi \
-  --min-replicas 1 \
-  --max-replicas 3 \
-  --registry-server "$LOGIN_SERVER" \
-  --registry-username "$(az acr credential show -n $ACR --query username -o tsv)" \
-  --registry-password "$(az acr credential show -n $ACR --query passwords[0].value -o tsv)" \
-  --env-vars NODE_ENV=production PORT=$PORT; then
-    echo "❌ Container App deployment failed"
-    exit 1
+    # Create new Container App with HTTPS ingress support
+    if ! az containerapp create \
+      -g "$RG" -n "$ACA_APP" \
+      --environment "$ACA_ENV" \
+      --image "$LOGIN_SERVER/$IMAGE:$TAG" \
+      --target-port $PORT \
+      --ingress external \
+      --cpu 1.0 \
+      --memory 2.0Gi \
+      --min-replicas 1 \
+      --max-replicas 3 \
+      --registry-server "$LOGIN_SERVER" \
+      --registry-username "$(az acr credential show -n $ACR --query username -o tsv)" \
+      --registry-password "$(az acr credential show -n $ACR --query passwords[0].value -o tsv)" \
+      --env-vars NODE_ENV=production PORT=$PORT; then
+        echo "❌ Container App deployment failed"
+        exit 1
+    fi
+    echo "✅ Container App created successfully!"
 fi
 
 echo "✅ Container App deployed successfully!"

@@ -8,7 +8,7 @@ set -e  # Exit on any error
 # Configuration
 ACR_NAME="dddoutback"
 IMAGE_NAME="reveal-multiplex"
-TAG="latest"
+TAG=$(git rev-parse --short HEAD)
 FULL_IMAGE_NAME="${ACR_NAME}.azurecr.io/${IMAGE_NAME}:${TAG}"
 
 echo "Starting build and push process for ${FULL_IMAGE_NAME}"
