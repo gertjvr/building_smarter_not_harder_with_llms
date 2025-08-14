@@ -1,13 +1,14 @@
 #!/bin/bash
 
-# Deploy script for reveal-multiplex to Azure Container Instances
+# Deploy script for reveal-multiplex to Azure Container Apps
 # Usage: ./deploy.sh
 
 set -e  # Exit on any error
 
 # Configuration
 RG="rg-ddd-outback"
-ACI="aci-reveal-multiplex"
+ACA_ENV="ce-ddd-outback"
+ACA_APP="reveal-multiplex"
 LOC="australiaeast"
 ACR="dddoutback"
 IMAGE="reveal-multiplex"
@@ -30,6 +31,16 @@ else
     echo "✅ Already logged in to Azure"
 fi
 
+# Step 1.1: Install Container Apps extension if needed
+echo "🔧 Ensuring Container Apps extension is installed..."
+if ! az extension show --name containerapp &>/dev/null; then
+    echo "Installing Container Apps extension..."
+    az extension add --name containerapp --upgrade
+    echo "✅ Container Apps extension installed"
+else
+    echo "✅ Container Apps extension already installed"
+fi
+
 # Step 2: Check and login to Azure Container Registry if needed
 echo "🔐 Checking Azure Container Registry login status (${ACR})..."
 if ! az acr repository list --name "${ACR}" --output table &>/dev/null; then
@@ -47,52 +58,67 @@ fi
 echo "🔍 Getting ACR login server..."
 LOGIN_SERVER=$(az acr show -n "$ACR" --query loginServer -o tsv)
 
-# Step 4: Check and delete existing ACI instance if it exists
-echo "🗑️  Checking for existing ACI instance..."
-if az container show -g "$RG" -n "$ACI" &>/dev/null; then
-    echo "Existing ACI instance found. Deleting..."
-    if ! az container delete -g "$RG" -n "$ACI" --yes; then
-        echo "❌ Failed to delete existing ACI instance"
+# Step 4: Create Container Apps Environment if it doesn't exist
+echo "🏗️  Checking for Container Apps Environment..."
+if ! az containerapp env show -g "$RG" -n "$ACA_ENV" &>/dev/null; then
+    echo "Container Apps Environment not found. Creating..."
+    if ! az containerapp env create -g "$RG" -n "$ACA_ENV" -l "$LOC"; then
+        echo "❌ Failed to create Container Apps Environment"
         exit 1
     fi
-    echo "✅ Existing ACI instance deleted successfully"
+    echo "✅ Container Apps Environment created successfully"
 else
-    echo "✅ No existing ACI instance found"
+    echo "✅ Container Apps Environment already exists"
 fi
 
-# Step 5: Deploy to Azure Container Instances
-echo "🚀 Deploying to Azure Container Instances..."
-echo "Container Instance: ${ACI}"
+# Step 5: Check and delete existing Container App if it exists
+echo "🗑️  Checking for existing Container App..."
+if az containerapp show -g "$RG" -n "$ACA_APP" &>/dev/null; then
+    echo "Existing Container App found. Deleting..."
+    if ! az containerapp delete -g "$RG" -n "$ACA_APP" --yes; then
+        echo "❌ Failed to delete existing Container App"
+        exit 1
+    fi
+    echo "✅ Existing Container App deleted successfully"
+else
+    echo "✅ No existing Container App found"
+fi
+
+# Step 6: Deploy to Azure Container Apps
+echo "🚀 Deploying to Azure Container Apps..."
+echo "Container App: ${ACA_APP}"
 echo "Image: ${LOGIN_SERVER}/${IMAGE}:${TAG}"
 
-# recreate with new port and HTTPS support
-if ! az container create \
-  -g "$RG" -n "$ACI" -l "$LOC" \
+# Create Container App with HTTPS ingress support
+if ! az containerapp create \
+  -g "$RG" -n "$ACA_APP" \
+  --environment "$ACA_ENV" \
   --image "$LOGIN_SERVER/$IMAGE:$TAG" \
-  --os-type Linux \
-  --cpu 1 \
-  --memory 1.5 \
-  --ports $PORT \
-  --ip-address Public \
-  --dns-name-label "reveal-multiplex-$RANDOM" \
-  --registry-login-server "$LOGIN_SERVER" \
+  --target-port $PORT \
+  --ingress external \
+  --cpu 1.0 \
+  --memory 2.0Gi \
+  --min-replicas 1 \
+  --max-replicas 3 \
+  --registry-server "$LOGIN_SERVER" \
   --registry-username "$(az acr credential show -n $ACR --query username -o tsv)" \
   --registry-password "$(az acr credential show -n $ACR --query passwords[0].value -o tsv)" \
-  --environment-variables NODE_ENV=production PORT=$PORT; then
-    echo "❌ Container deployment failed"
+  --env-vars NODE_ENV=production PORT=$PORT; then
+    echo "❌ Container App deployment failed"
     exit 1
 fi
 
-echo "✅ Container deployed successfully!"
+echo "✅ Container App deployed successfully!"
 
-# Get the FQDN of the deployed container
-echo "🔗 Getting container access URL..."
-FQDN=$(az container show -g "$RG" -n "$ACI" --query ipAddress.fqdn -o tsv)
+# Get the FQDN of the deployed container app
+echo "🔗 Getting Container App access URL..."
+FQDN=$(az containerapp show -g "$RG" -n "$ACA_APP" --query properties.configuration.ingress.fqdn -o tsv)
 
 if [ -n "$FQDN" ]; then
-    echo "URL: http://${FQDN}:${PORT}"
+    echo "HTTPS URL: https://${FQDN}"
+    echo "🔒 Container Apps provides automatic HTTPS termination"
 else
-    echo "⚠️  Could not retrieve container FQDN. Check the Azure portal for access details."
+    echo "⚠️  Could not retrieve Container App FQDN. Check the Azure portal for access details."
 fi
 
 echo "============================================="
