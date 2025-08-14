@@ -8,6 +8,7 @@ import { createServer } from 'http';
 import { Server } from 'socket.io';
 
 const app = express();
+
 const server = createServer(app);
 const io = new Server(server, {
   cors: {
@@ -17,8 +18,18 @@ const io = new Server(server, {
   }
 });
 
-// Default port
-const port = process.env.PORT || 1948;
+// Parse command line arguments
+const args = process.argv.slice(2);
+let port = process.env.PORT || 8080;
+
+// Check for -p flag
+const portIndex = args.indexOf('-p');
+if (portIndex !== -1 && portIndex + 1 < args.length) {
+  const customPort = parseInt(args[portIndex + 1], 10);
+  if (!isNaN(customPort)) {
+    port = customPort;
+  }
+}
 
 // Client tracking
 let connectedClients = 0;

@@ -1,12 +1,9 @@
-﻿version: '3'
-
-services:
+﻿services:
   multiplex-server:
-    build: .
+    build: ./server
     ports:
-      - "1948:1948"
+      - "8080:8080"
     environment:
-      - PORT=1948
+      - PORT=8080
+      - NODE_ENV=production
     restart: unless-stopped
-    volumes:
-      - ./server.js:/app/server.js

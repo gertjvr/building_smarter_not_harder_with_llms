@@ -214,7 +214,7 @@ project/
 ├── README.md
 ├── Dockerfile                   # Docker configuration for socket.io server
 ├── docker-compose.yml           # Docker Compose configuration
-├── server.js                    # Socket.io server for multiplex
+├── server/index.js                    # Socket.io server for multiplex
 ├── setup-multiplex.js           # Setup script for multiplex configuration
 └── test-multiplex.js            # Test script for multiplex server
 ```

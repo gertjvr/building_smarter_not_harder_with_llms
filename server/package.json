@@ -1,0 +1,16 @@
+{
+  "name": "reveal-multiplex",
+  "version": "1.0.0",
+  "description": "Socket.io server for RevealJS Multiplex",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "^4.18.3",
+    "socket.io": "^4.8.1"
+  },
+  "author": "",
+  "license": "MIT"
+}
