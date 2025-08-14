@@ -117,6 +117,18 @@ const Plugin = () => {
       }
     });
 
+    // Handle server request for current state (master only)
+    socket.on('multiplex-request-state', () => {
+      if (isMaster) {
+        const state = deck.getState();
+        socket.emit('multiplex-statechanged', {
+          state: state,
+          secret: multiplexConfig.secret
+        });
+        console.log('Sent current state to server upon request');
+      }
+    });
+
     // Handle disconnection
     socket.on('disconnect', () => {
       console.log('Disconnected from multiplex server');

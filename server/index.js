@@ -34,6 +34,7 @@ if (portIndex !== -1 && portIndex + 1 < args.length) {
 // Client tracking
 let connectedClients = 0;
 let masterConnected = false;
+let currentSlideState = null;
 
 // Serve a simple status page
 app.get('/', (req, res) => {
@@ -52,12 +53,21 @@ io.on('connection', socket => {
   // Log connection
   console.log(`Client connected (${connectedClients} total)`);
 
+  // Send current slide state to newly connected clients
+  if (currentSlideState && masterConnected) {
+    socket.emit('multiplex-statechanged', { state: currentSlideState });
+    console.log('Sent current slide state to new client');
+  }
+
   // Handle multiplex events
   socket.on('multiplex-statechanged', data => {
     // Check if this is coming from the master
     if (typeof data.secret !== 'undefined' && data.secret.length) {
       masterConnected = true;
       console.log('Master: State changed');
+
+      // Store the current slide state
+      currentSlideState = data.state;
 
       // Remove secret before broadcasting to clients
       const stateData = { ...data };
@@ -73,6 +83,12 @@ io.on('connection', socket => {
     if (typeof data.secret !== 'undefined' && data.secret.length) {
       masterConnected = true;
       console.log('Master connected');
+
+      // Request current state from master if we don't have it
+      if (!currentSlideState) {
+        socket.emit('multiplex-request-state');
+        console.log('Requested current state from master');
+      }
 
       // Broadcast master status to all clients
       io.emit('multiplex-master-status', { connected: true });

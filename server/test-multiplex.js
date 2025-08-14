@@ -1,76 +1,60 @@
-﻿/**
- * Test script for RevealJS Multiplex
- * This script tests the connection to the multiplex server
+/**
+ * Test script to verify multiplex functionality
+ * Tests that new clients receive current slide state when connecting
  */
 
-import http from 'http';
-import fs from 'fs';
+import { spawn } from 'child_process';
+import { createServer } from 'http';
+import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-// Get the directory name
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-// Load the .env file if it exists
-let config = {
-  server: 'http://localhost:1948',
-  id: 'default-id',
-  secret: 'default-secret'
+// Start the multiplex server
+console.log('Starting multiplex server...');
+const serverProcess = spawn('node', ['index.js', '-p', '8081'], {
+  cwd: __dirname,
+  stdio: 'inherit'
+});
+
+// Start a simple HTTP server for the presentation
+const app = express();
+app.use(express.static(__dirname));
+
+const httpServer = createServer(app);
+
+// Find an available port starting from 3002
+let testPort = 3002;
+const startServer = () => {
+  httpServer.listen(testPort, () => {
+    console.log(`Presentation server running on http://localhost:${testPort}`);
+    console.log('\nTo test the multiplex synchronization:');
+    console.log(`1. Open http://localhost:${testPort}?master=true&secret=test (Master)`);
+    console.log('2. Navigate to a few slides on the master');
+    console.log(`3. Open http://localhost:${testPort} in another tab/window (Client)`);
+    console.log('4. The client should automatically jump to the current slide');
+    console.log('\nPress Ctrl+C to stop both servers');
+  }).on('error', (err) => {
+    if (err.code === 'EADDRINUSE') {
+      console.log(`Port ${testPort} is busy, trying ${testPort + 1}...`);
+      testPort++;
+      startServer();
+    } else {
+      throw err;
+    }
+  });
 };
 
-try {
-  const envFile = fs.readFileSync(path.join(__dirname, '.env'), 'utf8');
-  const envLines = envFile.split('\n');
+startServer();
 
-  for (const line of envLines) {
-    if (line.trim() && !line.startsWith('#')) {
-      const [key, value] = line.split('=');
-      if (key === 'MULTIPLEX_SERVER_URL') config.server = value;
-      if (key === 'MULTIPLEX_ID') config.id = value;
-      if (key === 'MULTIPLEX_SECRET') config.secret = value;
-    }
-  }
-} catch (err) {
-  console.log('No .env file found, using default configuration');
-}
-
-// Extract the hostname and port from the server URL
-const serverUrl = new URL(config.server);
-const hostname = serverUrl.hostname;
-const port = serverUrl.port || 80;
-
-console.log('Testing multiplex server connection...');
-console.log('Server:', config.server);
-console.log('ID:', config.id);
-console.log('Secret:', config.secret);
-
-// Test the connection to the server
-const req = http.request({
-  hostname: hostname,
-  port: port,
-  path: '/',
-  method: 'GET'
-}, (res) => {
-  console.log('Status:', res.statusCode);
-
-  if (res.statusCode === 200) {
-    console.log('✅ Server is running');
-    console.log('\nTo start the master presentation:');
-    console.log(`  pnpm dev:master`);
-    console.log('\nTo start a client presentation:');
-    console.log(`  pnpm dev:client`);
-  } else {
-    console.log('❌ Server returned an error');
-    console.log('\nMake sure the server is running:');
-    console.log('  docker-compose up -d');
-  }
+// Handle cleanup on exit
+process.on('SIGINT', () => {
+  console.log('\nShutting down servers...');
+  serverProcess.kill();
+  httpServer.close();
+  process.exit(0);
 });
 
-req.on('error', (err) => {
-  console.log('❌ Error connecting to server:', err.message);
-  console.log('\nMake sure the server is running:');
-  console.log('  docker-compose up -d');
-});
-
-req.end();
+// Keep the process alive
+setTimeout(() => {}, 1000000);
