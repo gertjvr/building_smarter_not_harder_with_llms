@@ -10,7 +10,9 @@
     "dev:master": "vite --open /?master=true&secret=",
     "dev:client": "vite --open /",
     "dev:notes": "vite --open /?notes=true&secret=",
-    "setup:multiplex": "node setup-multiplex.js"
+    "setup:multiplex": "node setup-multiplex.js",
+    "setup:env": "node setup-env.js",
+    "test:pusher": "node test-pusher.js"
   },
   "keywords": [
     "presentation",
