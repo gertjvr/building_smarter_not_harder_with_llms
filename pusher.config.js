@@ -1,16 +1,12 @@
-// Pusher configuration for reveal.js multiplex
+// Pusher configuration for reveal.js multiplex (Static Website Compatible)
 // You'll need to create a Pusher account and get these credentials
 export const pusherConfig = {
-  // Get these from your Pusher dashboard
-  key: import.meta.env.VITE_PUSHER_APP_KEY || '09903e0e42c793c992c2',
-  cluster: import.meta.env.VITE_PUSHER_CLUSTER || 'ap4', // e.g., 'us2', 'eu', 'ap1'
-  
-  // For security, you might want to use environment variables
-  // Create a .env file with your actual Pusher credentials:
-  // VITE_PUSHER_APP_KEY=your-actual-key
-  // VITE_PUSHER_CLUSTER=your-cluster
+  key: import.meta.env.VITE_PUSHER_APP_KEY,
+  cluster: import.meta.env.VITE_PUSHER_CLUSTER,
   
   // Channel and events configuration
+  // Using PUBLIC channel - no authentication required for static websites
+  // Note: We'll use localStorage + BroadcastChannel for cross-device sync
   channel: 'reveal-slides',
   events: {
     slide: 'slide-changed',

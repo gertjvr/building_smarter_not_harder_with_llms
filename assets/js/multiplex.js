@@ -27,11 +27,24 @@ const RevealMultiplex = () => {
         cluster: pusherConfig.cluster,
         forceTLS: true,
         enabledTransports: ['ws', 'wss']
+        // No authentication needed for public channels
       });
 
-      log(`Subscribing to channel: ${pusherConfig.channel}`);
+      log(`Subscribing to public channel: ${pusherConfig.channel}`);
       channel = pusher.subscribe(pusherConfig.channel);
       
+      // Handle successful subscription
+      channel.bind('pusher:subscription_succeeded', () => {
+        log('Successfully subscribed to public channel');
+        showConnectionStatus('connected');
+      });
+
+      // Handle subscription errors
+      channel.bind('pusher:subscription_error', (error) => {
+        log('Channel subscription error:', error);
+        showConnectionStatus('error');
+      });
+
       pusher.connection.bind('connected', () => {
         isConnected = true;
         log('Connected to Pusher');
@@ -97,7 +110,7 @@ const RevealMultiplex = () => {
       error: '🔴'
     };
     
-    statusEl.textContent = `${icons[status]} ${multiplexConfig.isMaster ? 'Master' : 'Client'}`;
+    statusEl.textContent = `${icons[status]} ${multiplexConfig.isMaster ? 'Presenter' : 'Audience'}`;
     document.body.appendChild(statusEl);
 
     // Auto-hide after 3 seconds if connected
@@ -110,30 +123,34 @@ const RevealMultiplex = () => {
     }
   };
 
-  // Simple broadcast function that works without server-side events
+  // Simple broadcast for static websites - uses localStorage + BroadcastChannel
   const broadcastEvent = (eventType, data) => {
-    if (!isConnected) return;
-    
-    // Since we can't use client events on public channels without a server,
-    // we'll use localStorage as a simple cross-tab communication method
-    // This works for testing on the same device with multiple tabs
     const broadcastData = {
       type: eventType,
       data: data,
       timestamp: Date.now(),
-      masterId: multiplexConfig.isMaster ? 'master' : 'client'
+      masterId: multiplexConfig.isMaster ? 'master' : 'client',
+      sessionId: getSessionId()
     };
     
-    // Store in localStorage for cross-tab communication
+    // Strategy 1: localStorage for same-device cross-tab communication
     localStorage.setItem('reveal-multiplex', JSON.stringify(broadcastData));
     
-    // Also broadcast using BroadcastChannel API if available
+    // Strategy 2: BroadcastChannel API if available (same device)
     if (typeof BroadcastChannel !== 'undefined') {
       const bc = new BroadcastChannel('reveal-multiplex');
       bc.postMessage(broadcastData);
     }
     
-    log(`Broadcasted ${eventType}:`, data);
+    log(`📡 Broadcasted ${eventType} (localStorage + BroadcastChannel):`, data);
+  };
+
+  // Generate unique session ID to prevent echo
+  const getSessionId = () => {
+    if (!window.multiplexSessionId) {
+      window.multiplexSessionId = `session-${Math.random().toString(36).substr(2, 9)}`;
+    }
+    return window.multiplexSessionId;
   };
 
   const setupMasterEvents = () => {
@@ -192,12 +209,12 @@ const RevealMultiplex = () => {
 
     log('Setting up client events');
 
-    // Listen for localStorage changes (cross-tab communication)
+    // Listen for localStorage changes (same-device cross-tab communication)
     window.addEventListener('storage', (event) => {
       if (event.key === 'reveal-multiplex' && event.newValue) {
         try {
           const broadcastData = JSON.parse(event.newValue);
-          if (broadcastData.masterId === 'master') {
+          if (broadcastData.masterId === 'master' && broadcastData.sessionId !== getSessionId()) {
             handleReceivedEvent(broadcastData.type, broadcastData.data);
           }
         } catch (error) {
@@ -206,16 +223,19 @@ const RevealMultiplex = () => {
       }
     });
 
-    // Listen for BroadcastChannel messages
+    // Listen for BroadcastChannel messages (same-device cross-tab)
     if (typeof BroadcastChannel !== 'undefined') {
       const bc = new BroadcastChannel('reveal-multiplex');
       bc.addEventListener('message', (event) => {
         const broadcastData = event.data;
-        if (broadcastData.masterId === 'master') {
+        if (broadcastData.masterId === 'master' && broadcastData.sessionId !== getSessionId()) {
           handleReceivedEvent(broadcastData.type, broadcastData.data);
         }
       });
     }
+
+    log('💡 Cross-device sync: Not available with public channels');
+    log('💡 Same-device sync: localStorage + BroadcastChannel enabled');
   };
 
   const handleReceivedEvent = (eventType, data) => {
