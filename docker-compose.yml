@@ -1,0 +1,12 @@
+﻿version: '3'
+
+services:
+  multiplex-server:
+    build: .
+    ports:
+      - "1948:1948"
+    environment:
+      - PORT=1948
+    restart: unless-stopped
+    volumes:
+      - ./server.js:/app/server.js

@@ -1,0 +1,46 @@
+﻿.multiplex-status {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-family: sans-serif;
+  font-size: 14px;
+  z-index: 1000;
+  transition: opacity 0.3s ease;
+  display: none;
+}
+
+.multiplex-status.visible {
+  display: block;
+}
+
+.multiplex-status .status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.multiplex-status .status-icon {
+  font-size: 12px;
+}
+
+.multiplex-status.connected .status-icon {
+  color: #4CAF50;
+}
+
+.multiplex-status.disconnected .status-icon {
+  color: #F44336;
+}
+
+.multiplex-status.presenter .status-text::after {
+  content: " (Presenter)";
+  font-weight: bold;
+}
+
+.multiplex-status.audience .status-text::after {
+  content: " (Audience)";
+  font-weight: bold;
+}

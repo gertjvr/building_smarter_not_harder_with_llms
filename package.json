@@ -7,12 +7,14 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "dev:master": "vite --open /?master=true&secret=",
+    "dev:master": "vite --open /?master=true",
     "dev:client": "vite --open /",
-    "dev:notes": "vite --open /?notes=true&secret=",
+    "dev:notes": "vite --open /?notes=true",
     "setup:multiplex": "node setup-multiplex.js",
-    "setup:env": "node setup-env.js",
-    "test:pusher": "node test-pusher.js"
+    "test:multiplex": "node test-multiplex.js",
+    "server": "node server.js",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down"
   },
   "keywords": [
     "presentation",
@@ -24,9 +26,11 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "express": "^4.18.2",
     "highlight.js": "^11.9.0",
     "reveal-multiplex": "^0.1.0",
     "reveal.js": "^5.2.1",
+    "socket.io": "^4.7.5",
     "socket.io-client": "^4.7.5"
   },
   "devDependencies": {

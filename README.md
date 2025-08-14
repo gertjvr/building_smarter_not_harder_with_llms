@@ -128,6 +128,73 @@ This builds the project and pushes the `dist/` folder to the `gh-pages` branch.
 - Mobile/touch support
 - Easy theme switching
 - Automated GitHub Pages deployment
+- Multiplex for controlling presentation from different devices
+
+## Multiplex Setup
+
+The presentation includes a multiplex feature that allows you to control the presentation from a different device, keeping multiple instances in sync.
+
+### Prerequisites
+
+- Docker and Docker Compose (for running the socket.io server)
+- Node.js and pnpm (for running the presentation)
+
+### Setup Steps
+
+1. **Generate Multiplex Configuration**
+
+   Run the setup script to generate the necessary configuration:
+
+   ```bash
+   pnpm run setup:multiplex
+   ```
+
+   This will create:
+   - `assets/js/multiplex-config.js` with server details
+   - `.env` file with environment variables for Docker
+
+2. **Start the Socket.io Server**
+
+   Start the Docker container for the socket.io server:
+
+   ```bash
+   pnpm run docker:up
+   ```
+
+   This will build and start the socket.io server on port 1948.
+
+3. **Test the Connection**
+
+   Verify that the server is running:
+
+   ```bash
+   pnpm run test:multiplex
+   ```
+
+### Running the Presentation
+
+- **Master Presentation** (controller):
+
+  ```bash
+  pnpm run dev:master
+  ```
+
+  This will open the presentation with control capabilities.
+
+- **Client Presentation** (follower):
+
+  ```bash
+  pnpm run dev:client
+  ```
+
+  This will open the presentation that follows the master's navigation.
+
+### Connection Status
+
+- Press the `c` key to toggle the connection status indicator
+- The indicator shows whether you're connected to the server
+- For the master, it shows "Connected (Master)" when connected
+- For clients, it shows "Connected" when the master is connected
 
 ## Project Structure
 
@@ -138,7 +205,9 @@ project/
 │   │   ├── chatgpt-prompt.css   # Prompt component styling
 │   │   └── revealjs.css         # Reveal.js customizations
 │   └── js/
-│       └── main.js              # Reveal initialization
+│       ├── connection-status.js # Multiplex connection status indicator
+│       ├── main.js              # Reveal initialization
+│       └── multiplex-config.js  # Multiplex configuration (generated)
 ├── public/
 │   └── img/                     # Slide images (served statically)
 ├── slides/                      # External slide files (html/md)
@@ -154,7 +223,12 @@ project/
 ├── vite.config.js               # Vite configuration + watch plugin
 ├── package.json                 # Dependencies & scripts
 ├── TALK.md                      # Complete talk script & speaker notes
-└── README.md
+├── README.md
+├── Dockerfile                   # Docker configuration for socket.io server
+├── docker-compose.yml           # Docker Compose configuration
+├── server.js                    # Socket.io server for multiplex
+├── setup-multiplex.js           # Setup script for multiplex configuration
+└── test-multiplex.js            # Test script for multiplex server
 ```
 
 ## Technical Details
@@ -164,6 +238,9 @@ project/
 - **Plugins**: Markdown, Highlight, Notes
 - **Loader**: Custom `slides-loader.js` injecting content via `vite-plugin-html`
 - **HMR**: Custom watch plugin triggers full reload on slide edits
+- **Multiplex**: Socket.io-based synchronization between presentations
+- **Docker**: Container for running the socket.io multiplex server
+- **Connection Status**: Toggle with 'c' key to show connection status
 
 ## License
 

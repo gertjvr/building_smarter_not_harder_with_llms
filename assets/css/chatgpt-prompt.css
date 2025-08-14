@@ -1,12 +1,16 @@
 /* Prompt card look-alike */
 .prompt-card {
   max-width: min(1100px, 94%);
+  max-height: 80vh; /* Prevent card from being too tall on large screens */
   margin: 0 auto;
   background: #fff;
   border: 2px solid #e6e7eb;
   border-radius: 32px;
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.08);
   padding: clamp(20px, 3vw, 36px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 .prompt-card { /* isolate from Reveal's .reveal p/li scaling */
   font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, Noto Sans, "Apple Color Emoji", "Segoe UI Emoji";
@@ -35,6 +39,28 @@
   font-size: clamp(18px, 1.8vw, 22px);
   color: #17181b;
   padding: 10px 0 18px;
+}
+
+/* Scrollable content area to prevent toolbar cutoff */
+.prompt-card .prompt-body {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 10px;
+  scrollbar-width: thin;
+  scrollbar-color: #b9b9b9 transparent;
+}
+
+.prompt-card .prompt-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.prompt-card .prompt-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.prompt-card .prompt-body::-webkit-scrollbar-thumb {
+  background: #b9b9b9;
+  border-radius: 4px;
 }
 .prompt-toolbar {
   display: flex;
