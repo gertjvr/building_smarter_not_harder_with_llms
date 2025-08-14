@@ -3,7 +3,12 @@
  * Handles socket-based presentation synchronization between master and client presentations
  */
 import io from 'socket.io-client';
-import { multiplexConfig } from './multiplex-config.js';
+
+const multiplexConfig = {
+  server: import.meta.env.VITE_MULTIPLEX_SERVER_URL,
+  id: import.meta.env.VITE_MULTIPLEX_ID,
+  secret: import.meta.env.VITE_MULTIPLEX_SECRET
+};
 
 function createConnectionStatus() {
   // Create the connection status element

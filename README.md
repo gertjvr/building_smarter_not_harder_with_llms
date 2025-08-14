@@ -141,29 +141,17 @@ The presentation includes a multiplex feature that allows you to control the pre
 
 ### Setup Steps
 
-1. **Generate Multiplex Configuration**
-
-   Run the setup script to generate the necessary configuration:
-
-   ```bash
-   pnpm run setup:multiplex
-   ```
-
-   This will create:
-   - `assets/js/multiplex-config.js` with server details
-   - `.env` file with environment variables for Docker
-
-2. **Start the Socket.io Server**
+1. **Start the Socket.io Server**
 
    Start the Docker container for the socket.io server:
 
    ```bash
    pnpm run docker:up
    ```
-
+   
    This will build and start the socket.io server on port 1948.
 
-3. **Test the Connection**
+2. **Test the Connection**
 
    Verify that the server is running:
 
