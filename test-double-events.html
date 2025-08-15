@@ -1,0 +1,122 @@
+<!doctype html>
+<html>
+<head>
+    <title>Test Double Events</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        #log { background: #f0f0f0; padding: 10px; margin: 10px 0; height: 300px; overflow-y: auto; }
+        button { margin: 5px; padding: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Double Events Test</h1>
+    <p>This test simulates the issue where master navigation triggers double events.</p>
+
+    <button onclick="simulateSlideChange()">Simulate Slide Change</button>
+    <button onclick="clearLog()">Clear Log</button>
+
+    <div id="log"></div>
+
+    <script>
+        let eventCount = 0;
+
+        function log(message) {
+            const logDiv = document.getElementById('log');
+            const timestamp = new Date().toLocaleTimeString();
+            logDiv.innerHTML += `[${timestamp}] ${message}<br>`;
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+
+        function clearLog() {
+            document.getElementById('log').innerHTML = '';
+            eventCount = 0;
+        }
+
+        // Simulate the RevealJS event system
+        class MockReveal {
+            constructor() {
+                this.listeners = {};
+            }
+
+            on(event, callback) {
+                if (!this.listeners[event]) {
+                    this.listeners[event] = [];
+                }
+                this.listeners[event].push(callback);
+                log(`Event listener added for: ${event} (total: ${this.listeners[event].length})`);
+            }
+
+            emit(event, data) {
+                if (this.listeners[event]) {
+                    log(`Emitting ${event} to ${this.listeners[event].length} listeners`);
+                    this.listeners[event].forEach(callback => {
+                        callback(data);
+                    });
+                }
+            }
+
+            getState() {
+                return { indexh: 1, indexv: 0, indexf: -1 };
+            }
+        }
+
+        // Simulate the multiplex plugin behavior
+        function simulateMultiplexPlugin() {
+            const deck = new MockReveal();
+            let setupCalled = 0;
+
+            function setupMasterEventListeners() {
+                setupCalled++;
+                log(`setupMasterEventListeners called (count: ${setupCalled})`);
+
+                deck.on('slidechanged', function() {
+                    eventCount++;
+                    log(`slidechanged event #${eventCount} - sending state to server`);
+                });
+
+                deck.on('fragmentshown', function() {
+                    eventCount++;
+                    log(`fragmentshown event #${eventCount} - sending state to server`);
+                });
+            }
+
+            // Simulate socket connection scenarios
+            function simulateConnection() {
+                log('=== Simulating socket connection ===');
+                setupMasterEventListeners();
+            }
+
+            function simulateReconnection() {
+                log('=== Simulating socket reconnection ===');
+                setupMasterEventListeners(); // This could be the problem!
+            }
+
+            // Initial setup
+            simulateConnection();
+
+            // Simulate reconnection after 2 seconds
+            setTimeout(() => {
+                simulateReconnection();
+
+                // Now test slide change
+                setTimeout(() => {
+                    log('=== Testing slide change after reconnection ===');
+                    deck.emit('slidechanged', {});
+                }, 1000);
+            }, 2000);
+
+            return deck;
+        }
+
+        function simulateSlideChange() {
+            log('=== Starting double events simulation ===');
+            simulateMultiplexPlugin();
+        }
+
+        // Auto-run the test
+        window.onload = function() {
+            log('Double events test loaded. Click "Simulate Slide Change" to test.');
+        };
+    </script>
+</body>
+</html>

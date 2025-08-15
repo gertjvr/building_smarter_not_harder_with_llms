@@ -79,6 +79,7 @@ const Plugin = () => {
   let socket;
   let connectionStatus;
   let isMaster = false;
+  let masterEventListenersSetup = false;
 
   return {
     id: 'multiplex',
@@ -160,6 +161,13 @@ const Plugin = () => {
   }
 
   function setupMasterEventListeners() {
+    // Prevent duplicate event listener registration
+    if (masterEventListenersSetup) {
+      return;
+    }
+
+    masterEventListenersSetup = true;
+
     // Send state changes to the server when we're the master
     deck.on('slidechanged', function() {
       const state = deck.getState();

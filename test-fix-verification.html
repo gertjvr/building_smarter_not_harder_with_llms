@@ -1,0 +1,199 @@
+<!doctype html>
+<html>
+<head>
+    <title>Test Fix Verification</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        #log { background: #f0f0f0; padding: 10px; margin: 10px 0; height: 300px; overflow-y: auto; }
+        button { margin: 5px; padding: 10px; }
+        .success { color: green; font-weight: bold; }
+        .error { color: red; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>Fix Verification Test</h1>
+    <p>This test verifies that the fix prevents double events during socket reconnections.</p>
+
+    <button onclick="testWithFix()">Test WITH Fix (Should show single events)</button>
+    <button onclick="testWithoutFix()">Test WITHOUT Fix (Shows double events)</button>
+    <button onclick="clearLog()">Clear Log</button>
+
+    <div id="log"></div>
+
+    <script>
+        let eventCount = 0;
+
+        function log(message, className = '') {
+            const logDiv = document.getElementById('log');
+            const timestamp = new Date().toLocaleTimeString();
+            const span = className ? `<span class="${className}">${message}</span>` : message;
+            logDiv.innerHTML += `[${timestamp}] ${span}<br>`;
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+
+        function clearLog() {
+            document.getElementById('log').innerHTML = '';
+            eventCount = 0;
+        }
+
+        // Simulate the RevealJS event system
+        class MockReveal {
+            constructor() {
+                this.listeners = {};
+            }
+
+            on(event, callback) {
+                if (!this.listeners[event]) {
+                    this.listeners[event] = [];
+                }
+                this.listeners[event].push(callback);
+                log(`Event listener added for: ${event} (total: ${this.listeners[event].length})`);
+            }
+
+            emit(event, data) {
+                if (this.listeners[event]) {
+                    log(`Emitting ${event} to ${this.listeners[event].length} listeners`);
+                    this.listeners[event].forEach(callback => {
+                        callback(data);
+                    });
+                }
+            }
+
+            getState() {
+                return { indexh: 1, indexv: 0, indexf: -1 };
+            }
+        }
+
+        // Simulate the FIXED multiplex plugin behavior
+        function simulateFixedMultiplexPlugin() {
+            const deck = new MockReveal();
+            let setupCalled = 0;
+            let masterEventListenersSetup = false; // THE FIX
+
+            function setupMasterEventListeners() {
+                setupCalled++;
+                log(`setupMasterEventListeners called (count: ${setupCalled})`);
+
+                // THE FIX: Prevent duplicate event listener registration
+                if (masterEventListenersSetup) {
+                    log('Event listeners already setup, skipping duplicate registration', 'success');
+                    return;
+                }
+
+                masterEventListenersSetup = true;
+                log('Setting up event listeners for the first time', 'success');
+
+                deck.on('slidechanged', function() {
+                    eventCount++;
+                    log(`slidechanged event #${eventCount} - sending state to server`);
+                });
+
+                deck.on('fragmentshown', function() {
+                    eventCount++;
+                    log(`fragmentshown event #${eventCount} - sending state to server`);
+                });
+            }
+
+            // Initial setup
+            log('=== Initial socket connection ===');
+            setupMasterEventListeners();
+
+            // Simulate reconnection
+            setTimeout(() => {
+                log('=== Socket reconnection (should NOT add duplicate listeners) ===');
+                setupMasterEventListeners();
+
+                // Test slide change
+                setTimeout(() => {
+                    log('=== Testing slide change (should fire only ONCE) ===');
+                    const initialCount = eventCount;
+                    deck.emit('slidechanged', {});
+
+                    setTimeout(() => {
+                        const finalCount = eventCount;
+                        const eventsTriggered = finalCount - initialCount;
+                        if (eventsTriggered === 1) {
+                            log(`✅ SUCCESS: Only ${eventsTriggered} event triggered (expected 1)`, 'success');
+                        } else {
+                            log(`❌ FAILED: ${eventsTriggered} events triggered (expected 1)`, 'error');
+                        }
+                    }, 100);
+                }, 500);
+            }, 1000);
+
+            return deck;
+        }
+
+        // Simulate the BROKEN multiplex plugin behavior (original)
+        function simulateBrokenMultiplexPlugin() {
+            const deck = new MockReveal();
+            let setupCalled = 0;
+            // NO masterEventListenersSetup flag - this is the bug
+
+            function setupMasterEventListeners() {
+                setupCalled++;
+                log(`setupMasterEventListeners called (count: ${setupCalled})`);
+
+                // NO CHECK FOR DUPLICATES - this causes the bug
+                deck.on('slidechanged', function() {
+                    eventCount++;
+                    log(`slidechanged event #${eventCount} - sending state to server`);
+                });
+
+                deck.on('fragmentshown', function() {
+                    eventCount++;
+                    log(`fragmentshown event #${eventCount} - sending state to server`);
+                });
+            }
+
+            // Initial setup
+            log('=== Initial socket connection ===');
+            setupMasterEventListeners();
+
+            // Simulate reconnection
+            setTimeout(() => {
+                log('=== Socket reconnection (WILL add duplicate listeners) ===', 'error');
+                setupMasterEventListeners();
+
+                // Test slide change
+                setTimeout(() => {
+                    log('=== Testing slide change (will fire TWICE) ===');
+                    const initialCount = eventCount;
+                    deck.emit('slidechanged', {});
+
+                    setTimeout(() => {
+                        const finalCount = eventCount;
+                        const eventsTriggered = finalCount - initialCount;
+                        if (eventsTriggered === 1) {
+                            log(`✅ Only ${eventsTriggered} event triggered`, 'success');
+                        } else {
+                            log(`❌ PROBLEM: ${eventsTriggered} events triggered (double events!)`, 'error');
+                        }
+                    }, 100);
+                }, 500);
+            }, 1000);
+
+            return deck;
+        }
+
+        function testWithFix() {
+            clearLog();
+            log('=== Testing WITH fix (should prevent double events) ===', 'success');
+            simulateFixedMultiplexPlugin();
+        }
+
+        function testWithoutFix() {
+            clearLog();
+            log('=== Testing WITHOUT fix (demonstrates the original problem) ===', 'error');
+            simulateBrokenMultiplexPlugin();
+        }
+
+        // Auto-run information
+        window.onload = function() {
+            log('Fix verification test loaded.');
+            log('Click "Test WITH Fix" to see the corrected behavior.');
+            log('Click "Test WITHOUT Fix" to see the original problem.');
+        };
+    </script>
+</body>
+</html>
