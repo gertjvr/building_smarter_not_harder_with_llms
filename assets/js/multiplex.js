@@ -170,27 +170,36 @@ const Plugin = () => {
 
     // Send state changes to the server when we're the master
     deck.on('slidechanged', function() {
-      const state = deck.getState();
-      socket.emit('multiplex-statechanged', {
-        state: state,
-        secret: multiplexConfig.secret
-      });
+      // Add a small delay to ensure RevealJS state is fully updated
+      setTimeout(() => {
+        const state = deck.getState();
+        socket.emit('multiplex-statechanged', {
+          state: state,
+          secret: multiplexConfig.secret
+        });
+      }, 10);
     });
 
     deck.on('fragmentshown', function() {
-      const state = deck.getState();
-      socket.emit('multiplex-statechanged', {
-        state: state,
-        secret: multiplexConfig.secret
-      });
+      // Add a small delay to ensure RevealJS state is fully updated
+      setTimeout(() => {
+        const state = deck.getState();
+        socket.emit('multiplex-statechanged', {
+          state: state,
+          secret: multiplexConfig.secret
+        });
+      }, 10);
     });
 
     deck.on('fragmenthidden', function() {
-      const state = deck.getState();
-      socket.emit('multiplex-statechanged', {
-        state: state,
-        secret: multiplexConfig.secret
-      });
+      // Add a small delay to ensure RevealJS state is fully updated
+      setTimeout(() => {
+        const state = deck.getState();
+        socket.emit('multiplex-statechanged', {
+          state: state,
+          secret: multiplexConfig.secret
+        });
+      }, 10);
     });
   }
 };
