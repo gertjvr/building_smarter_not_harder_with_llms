@@ -150,8 +150,11 @@ const Plugin = () => {
       // Ignore if we're the master
       if (isMaster) return;
 
-      // Apply the state changes
-      deck.setState(data.state);
+      // Apply the state changes with a small delay to prevent audience being ahead
+      // This ensures the presenter completes their navigation before audience sees the change
+      setTimeout(() => {
+        deck.setState(data.state);
+      }, 50);
     });
 
     // Set up master event listeners
